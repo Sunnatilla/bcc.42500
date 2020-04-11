@@ -1,9 +1,11 @@
+import { CodeValue } from "../ReferenceController";
+
 export interface BaseModel {
   iin?: string;
   phoneNumber?: string;
   firstName?: string;
   lastName?: string;
-  middleNme?: string;
+  middleName?: string;
   birthDate?: string;
   identity?: Identity;
   address?: Address;
@@ -18,7 +20,8 @@ interface Identity {
 }
 
 interface Address {
-  region?: string;
+  region?: CodeValue;
+  district?: CodeValue;
   village?: string;
   street?: string;
   house?: string;

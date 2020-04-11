@@ -8,3 +8,5 @@ export { default as Step6 } from "./Step6";
 export { default as Stepper } from "./Stepper";
 export { default as Button } from "./Button";
 export { default as TextField } from "./TextField";
+export { default as PhoneNumber } from "./PhoneNumber";
+export { default as DatePicker } from "./DatePicker";

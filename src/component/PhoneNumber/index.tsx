@@ -3,7 +3,7 @@ import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import { OutlinedInputProps } from "@material-ui/core/OutlinedInput";
 import { InputLabelProps } from "@material-ui/core/InputLabel";
-import NumberFormat, { NumberFormatProps } from "react-number-format";
+import MaskedInput from "react-maskedinput";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "56px",
       border: "1px solid #E8E8E8",
       overflow: "hidden",
-      borderRadius: 3,
+      borderRadius: 2,
       backgroundColor: "#FFFFFF",
       boxSizing: "border-box",
       transition: theme.transitions.create(["border-color", "box-shadow"]),
@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "& label.Mui-focused": {
         color: "green",
+      },
+      "& label": {
+        color: "red",
       },
     },
     focused: {},
@@ -42,82 +45,86 @@ const useStyles2 = makeStyles((theme: Theme) =>
   })
 );
 
-declare module "react-number-format" {
-  interface NumberFormatProps {
-    allowLeadingZeros?: boolean;
-  }
+interface TextMaskCustomProps {
+  inputRef: (ref: HTMLInputElement | null) => void;
 }
 
-interface NumberFormatCustomProps extends NumberFormatProps {
-  inputRef: (instance: NumberFormat | null) => void;
-  onChange: (event: { target: { value: string } }) => void;
-}
-
-const NumberFormatCustom = (props: NumberFormatCustomProps) => {
-  const { inputRef, allowLeadingZeros, onChange, ...other } = props;
+const TextMaskCustom = (props: TextMaskCustomProps) => {
+  const { inputRef, ...other } = props;
 
   return (
-    <NumberFormat
+    <MaskedInput
       {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            value: values.value,
-          },
-        });
+      ref={(ref: any) => {
+        inputRef(ref ? ref.inputElement : null);
       }}
-      isNumericString
-      allowLeadingZeros
+      mask="+7 (111) 111 11 11"
+      placeholder={"+7 (707) 707 77 77"}
     />
   );
 };
 
-const BccInputText = (
+const BccPhoneInputText = (
   props: TextFieldProps & {
-    isNumeric?: boolean;
-    maxLength?: number;
-    shrink?: boolean;
-    allowLeadingZeros?: boolean;
+    onChangeValue?: (value: string) => void;
+    onChangeProviderCode?: (value: string) => void;
   }
 ) => {
   const classes = useStyles({});
   const classes2 = useStyles2({});
-
   const {
-    isNumeric,
-    maxLength,
-    shrink,
+    value,
+    onChangeValue,
+    onChangeProviderCode,
+    onChange,
     inputProps,
-    InputProps,
     ...others
   } = props;
 
+  const onChangeCorrected = (value: string) => {
+    if (!!onChangeValue) {
+      value = value.replace(/ /g, "").replace("(", "").replace(")", "");
+      onChangeValue(value);
+      if (!!onChangeProviderCode) {
+        if (value.length >= 5) {
+          onChangeProviderCode(value.substr(2, 3));
+        }
+      }
+    }
+  };
+
   return (
     <TextField
-      {...others}
+      value={value}
       style={{ height: "56px", marginTop: 24 }}
-      inputProps={{
-        ...inputProps,
-        maxLength,
-      }}
       InputLabelProps={
         {
+          shrink: !!value || undefined,
           classes: classes2,
           required: false,
-          shrink: shrink,
         } as Partial<InputLabelProps>
       }
+      onChange={(e: any) => {
+        if (!!onChange) {
+          onChange(e);
+        }
+        onChangeCorrected(e.target.value);
+      }}
       InputProps={
         {
-          ...(InputProps as Partial<OutlinedInputProps>),
           classes,
           disableUnderline: true,
-          inputComponent: isNumeric ? (NumberFormatCustom as any) : undefined,
+          inputComponent: TextMaskCustom as any,
         } as Partial<OutlinedInputProps>
       }
+      inputProps={{
+        ...inputProps,
+        pattern: "^[+][7]\\s[(]\\d{3}[)]\\s\\d{3}\\s\\d{2}\\s\\d{2}$",
+        title: "Поле должно быть формата +7 (111) 111 11 11",
+      }}
+      {...others}
     />
   );
 };
 
-export default BccInputText;
+export default BccPhoneInputText;

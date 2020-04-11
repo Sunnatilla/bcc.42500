@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, LinearProgress } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Swipe from "react-swipeable-views";
 import { AppContext } from "../App";
@@ -11,10 +11,26 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 16,
       color: "#4D565F",
     },
-    percent: {
-      backgroundColor: "#E0E0E0",
-      borderRadius: 4,
+    divProgress: {
+      position: "relative",
+    },
+    progress: {
+      top: 0,
+      left: 0,
+      height: 22,
+      width: "100%",
+      borderRadius: 2,
+      position: "absolute",
+      zIndex: 1569,
+    },
+    progressCount: {
+      top: 0,
+      left: 0,
+      width: "100%",
       textAlign: "center",
+      color: "black",
+      zIndex: 1600,
+      fontSize: 15,
     },
   })
 );
@@ -28,6 +44,8 @@ const Stepper = (props: {
 
   const { title, children, percent, step } = props;
 
+  const onSubmit = () => {};
+
   return (
     <AppContext.Consumer>
       {({ setStep }) => (
@@ -36,22 +54,21 @@ const Stepper = (props: {
             <Typography className={classes.title}>{title}</Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Typography className={classes.percent}>{`${percent}%`}</Typography>
+            <div className={classes.divProgress}>
+              <LinearProgress
+                className={classes.progress}
+                variant="determinate"
+                color="primary"
+                value={percent}
+              />
+              <Typography
+                className={classes.progressCount}
+              >{`${percent}%`}</Typography>
+            </div>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             {children}
           </Grid>
-          {step !== 1 && (
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <Button
-                style={{ marginTop: 24 }}
-                fullWidth={true}
-                onClick={() => setStep(step)}
-              >
-                Подтвердить
-              </Button>
-            </Grid>
-          )}
         </Grid>
       )}
     </AppContext.Consumer>

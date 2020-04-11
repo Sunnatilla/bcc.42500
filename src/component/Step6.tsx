@@ -88,7 +88,7 @@ const Step6 = () => {
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Grid container spacing={8}>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
             <Grid container>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <img
@@ -118,7 +118,7 @@ const Step6 = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
             <Grid container>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <img
