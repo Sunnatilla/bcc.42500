@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Typography, LinearProgress } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Swipe from "react-swipeable-views";
+import SwipeableViews from "react-swipeable-views";
 import { AppContext } from "../App";
 import { Button } from ".";
 
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     divProgress: {
       position: "relative",
+      marginBottom: 24,
     },
     progress: {
       top: 0,
@@ -26,9 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
     progressCount: {
       top: 0,
       left: 0,
+      position: "absolute",
       width: "100%",
       textAlign: "center",
-      color: "black",
+      color: "white",
       zIndex: 1600,
       fontSize: 15,
     },

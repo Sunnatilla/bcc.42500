@@ -2,13 +2,13 @@ import { server } from "./axios";
 
 const webConfigEnv = (window as any).env;
 
-export interface CodeValue {
+export interface CodeName {
   code?: string;
-  value?: string;
+  name?: string;
 }
 
 export class ReferenceController {
-  async getIdentityTypes(): Promise<CodeValue[]> {
+  async getIdentityTypes(): Promise<CodeName[]> {
     return server.get(`/reference/api/generic/Id`, {
       baseURL: webConfigEnv.GREEN_API,
     });

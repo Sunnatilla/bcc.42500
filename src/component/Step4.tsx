@@ -4,7 +4,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
 import { api } from "./../api/Api";
-import { CodeValue } from "./../api/ReferenceController";
+import { CodeName } from "./../api/ReferenceController";
 
 const Step4 = () => {
   const onSubmit = (e: any, setStep: (step: number) => void) => {
@@ -12,7 +12,7 @@ const Step4 = () => {
     setStep(4);
   };
 
-  const [identityTypes, setIdentityTypes] = useState([] as CodeValue[]);
+  const [identityTypes, setIdentityTypes] = useState([] as CodeName[]);
 
   useEffect(() => {
     api.reference.getIdentityTypes().then((m) => setIdentityTypes(m));
@@ -41,8 +41,9 @@ const Step4 = () => {
                 }
                 required
               >
+                <option></option>
                 {identityTypes?.map((m) => (
-                  <option value={m.value}>{m.value}</option>
+                  <option value={m.name}>{m.name}</option>
                 ))}
               </TextField>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -66,11 +67,11 @@ const Step4 = () => {
                   variant="filled"
                   fullWidth={true}
                   label="Кем выдан"
-                  value={model.identity?.issue}
+                  value={model.identity?.issue?.toUpperCase()}
                   onChange={(e: any) =>
                     changeModel(
                       (g) => g.identity?.issue,
-                      (s) => e.target.value
+                      (s) => e.target.value?.toUpperCase()
                     )
                   }
                   required

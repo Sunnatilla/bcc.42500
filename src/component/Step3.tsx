@@ -24,11 +24,11 @@ const Step3 = () => {
                 variant="filled"
                 fullWidth={true}
                 label="Фамилия"
-                value={model.lastName}
+                value={model.lastName?.toUpperCase()}
                 onChange={(e: any) =>
                   changeModel(
                     (g) => g.lastName,
-                    (s) => e.target.value
+                    (s) => e.target.value.toUpperCase()
                   )
                 }
                 required
@@ -44,11 +44,11 @@ const Step3 = () => {
                 variant="filled"
                 fullWidth={true}
                 label="Имя"
-                value={model.firstName}
+                value={model.firstName?.toUpperCase()}
                 onChange={(e: any) =>
                   changeModel(
                     (g) => g.firstName,
-                    (s) => e.target.value
+                    (s) => e.target.value.toUpperCase()
                   )
                 }
                 required
@@ -64,11 +64,11 @@ const Step3 = () => {
                 variant="filled"
                 fullWidth={true}
                 label="Отчество"
-                value={model.middleName}
+                value={model.middleName?.toUpperCase()}
                 onChange={(e: any) =>
                   changeModel(
                     (g) => g.middleName,
-                    (s) => e.target.value
+                    (s) => e.target.value.toUpperCase()
                   )
                 }
                 inputProps={{

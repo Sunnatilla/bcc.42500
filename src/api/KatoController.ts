@@ -40,7 +40,7 @@ export class KatoController {
   }
 
   async getKatoChildren(te?: string): Promise<KatoBaseModel> {
-    return await server.get(`/reference/api/kato/children/${te}`, {
+    return await server.get(`/reference/api/kato/children/new/${te}`, {
       baseURL: webConfigEnv.GREEN_API,
     });
   }

@@ -1,4 +1,4 @@
-import { CodeValue } from "../ReferenceController";
+import { CodeName } from "../ReferenceController";
 
 export interface BaseModel {
   iin?: string;
@@ -11,7 +11,7 @@ export interface BaseModel {
   address?: Address;
 }
 
-interface Identity {
+export interface Identity {
   type?: string;
   number?: string;
   issue?: string;
@@ -19,9 +19,9 @@ interface Identity {
   expireDate?: string;
 }
 
-interface Address {
-  region?: CodeValue;
-  district?: CodeValue;
+export interface Address {
+  region?: CodeName;
+  district?: CodeName;
   village?: string;
   street?: string;
   house?: string;

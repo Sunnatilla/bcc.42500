@@ -81,6 +81,7 @@ const Step2 = () => {
       .then(() => {
         setLoading(false);
         setTimer(90);
+        setOtp("");
       })
       .catch((e) => {
         setLoading(false);
