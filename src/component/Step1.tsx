@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
     garantProtection: {
       fontSize: 14,
       color: "#000000",
+      marginBottom: 24,
     },
   })
 );
