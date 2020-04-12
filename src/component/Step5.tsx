@@ -23,7 +23,7 @@ const Step5 = () => {
     e.preventDefault();
     setLoading(true);
     api.camunda
-      .start(model)
+      .start({ client: model })
       .then(() => {
         setLoading(false);
         setStep(5);
