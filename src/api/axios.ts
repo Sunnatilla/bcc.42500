@@ -76,8 +76,10 @@ export class Server {
     config = config || {};
     config.headers = config.headers || {};
     var userContext = JSON.parse(localStorage.getItem("userContext") || "{}");
-    config.headers.Authorization =
-      "Bearer " + (userContext.token || {}).accessToken;
+    if (!!(userContext.token || {}).accessToken) {
+      config.headers.Authorization =
+        "Bearer " + (userContext.token || {}).accessToken;
+    }
     config.baseURL = config.baseURL || webConfigEnv.SERVER_URL;
     return axios.post(url, data, config).then((r) => r.data);
   }

@@ -93,7 +93,7 @@ const Step3 = () => {
                     (s) => date?.format("MM/DD/YYYY")
                   )
                 }
-                label="Дата выдачи"
+                label="Дата рождения"
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
