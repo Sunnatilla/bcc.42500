@@ -54,7 +54,7 @@ const Header = (props: { showCard: boolean }) => {
               <Grid container alignItems="center">
                 <Grid item>
                   <Typography className={classes.hashTagSocialCard}>
-                    #socialCard
+                    #socialcard
                   </Typography>
                   <Typography className={classes.description}>
                     Для получений соц.пособий

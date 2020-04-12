@@ -48,6 +48,7 @@ export const Step1 = () => {
     api.authOtp
       .sendOtp({ iin: model.iin, phone: model.phoneNumber })
       .then(() => {
+        localStorage.removeItem("userContext");
         setLoading(false);
         setStep(1);
       })
