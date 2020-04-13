@@ -17,6 +17,8 @@ const identityTypes = [
   },
 ];
 
+const indentityIssueTypes = ["МЮ РК", "МВД РК"];
+
 const Step4 = () => {
   const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
@@ -72,6 +74,10 @@ const Step4 = () => {
                   variant="filled"
                   fullWidth={true}
                   label="Кем выдан"
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
                   value={model.identity?.issue?.toUpperCase()}
                   onChange={(e: any) =>
                     changeModel(
@@ -80,7 +86,12 @@ const Step4 = () => {
                     )
                   }
                   required
-                />
+                >
+                  <option></option>
+                  {indentityIssueTypes?.map((m) => (
+                    <option value={m}>{m}</option>
+                  ))}
+                </TextField>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Grid container spacing={2}>
