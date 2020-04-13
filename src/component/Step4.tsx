@@ -43,7 +43,7 @@ const Step4 = () => {
               >
                 <option></option>
                 {identityTypes?.map((m) => (
-                  <option value={m.name}>{m.name}</option>
+                  <option value={m.name}>{m.description}</option>
                 ))}
               </TextField>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>

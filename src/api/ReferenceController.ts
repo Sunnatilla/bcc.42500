@@ -5,6 +5,7 @@ const webConfigEnv = (window as any).env;
 export interface CodeName {
   code?: string;
   name?: string;
+  description?: string;
 }
 
 export class ReferenceController {
