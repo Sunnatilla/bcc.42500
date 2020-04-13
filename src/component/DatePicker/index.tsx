@@ -99,7 +99,6 @@ const useDatePickerStyles = makeStyles((theme: Theme) =>
       margin: 0,
       padding: 0,
       lineHeight: "20px",
-      height: "55px",
       width: "100%",
     },
   })
