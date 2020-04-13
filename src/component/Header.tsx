@@ -57,7 +57,7 @@ const Header = (props: { showCard: boolean }) => {
                     #socialcard
                   </Typography>
                   <Typography className={classes.description}>
-                    Для получений соц.пособий
+                    Для получения соц.пособий
                   </Typography>
                 </Grid>
               </Grid>

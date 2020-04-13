@@ -6,17 +6,22 @@ import { TextField, Button, DatePicker } from ".";
 import { api } from "./../api/Api";
 import { CodeName } from "./../api/ReferenceController";
 
+const identityTypes = [
+  {
+    name: "Паспорт гражданина Республики Казахстан",
+    description: "Паспорт гражданина Республики Казахстан",
+  },
+  {
+    name: "Удостоверение личности гражданина Республки Казахстан",
+    description: "Удостоверение личности гражданина Республики Казахстан",
+  },
+];
+
 const Step4 = () => {
   const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
     setStep(4);
   };
-
-  const [identityTypes, setIdentityTypes] = useState([] as CodeName[]);
-
-  useEffect(() => {
-    api.reference.getIdentityTypes().then((m) => setIdentityTypes(m));
-  }, []);
 
   return (
     <AppContext.Consumer>
