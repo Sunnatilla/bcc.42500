@@ -112,7 +112,7 @@ const Step4 = () => {
                           (s) => date?.format("MM/DD/YYYY")
                         )
                       }
-                      label="Дата истечение"
+                      label="Дата истечения"
                     />
                   </Grid>
                 </Grid>
