@@ -77,7 +77,8 @@ const Step6 = () => {
           </Grid>
           <Grid item>
             <Typography className={classes.txtFollowInstruct}>
-              Следуйте инструкции, которые мы отправили по СМС
+              В ближайшее время мы вышлем Вам СМС с номером счёта и инструкцию
+              для дальнейших действий.
             </Typography>
           </Grid>
         </Grid>
