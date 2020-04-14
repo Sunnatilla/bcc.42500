@@ -8,8 +8,9 @@ import {
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { Button, TextField, PhoneNumber } from ".";
-import { api } from "./../api/Api";
+import { api } from "../api/Api";
 import { BaseModel } from "../api/model/BaseModel";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,6 +45,10 @@ export const Step1 = () => {
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
+    ReactGA.event({
+      category: "Socialcard_continue_1",
+      action: "continue_1",
+    });
     setLoading(true);
     api.authOtp
       .sendOtp({ iin: model.iin, phone: model.phoneNumber })

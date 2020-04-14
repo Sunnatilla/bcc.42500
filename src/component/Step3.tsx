@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -11,6 +12,10 @@ const Step3 = () => {
 
   const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
+    ReactGA.event({
+      category: "Socialcard_continue_3",
+      action: "continue_3",
+    });
     setStep(3);
   };
 

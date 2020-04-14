@@ -4,9 +4,10 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button } from ".";
 import { BaseModel, Address } from "../api/model/BaseModel";
-import { api } from "./../api/Api";
+import { api } from "../api/Api";
 import { KatoModel } from "../api/KatoController";
 import { CodeName } from "../api/ReferenceController";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -21,10 +22,18 @@ const Step5 = () => {
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
+    ReactGA.event({
+      category: "Socialcard_continue_5",
+      action: "continue_5",
+    });
     setLoading(true);
     api.camunda
       .start({ client: model })
       .then(() => {
+        ReactGA.event({
+          category: "Application_successfully",
+          action: "successfully",
+        });
         setLoading(false);
         setStep(5);
       })

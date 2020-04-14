@@ -3,8 +3,9 @@ import { Grid, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button } from ".";
-import { api } from "./../api/Api";
+import { api } from "../api/Api";
 import { BaseModel } from "../api/model/BaseModel";
+import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,6 +53,10 @@ const Step2 = () => {
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
+    ReactGA.event({
+      category: "Socialcard_continue_2",
+      action: "continue_2",
+    });
     setLoading(true);
     api.authOtp
       .confirmOtp({
