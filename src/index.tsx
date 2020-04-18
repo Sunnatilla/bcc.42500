@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import ReactGA from "react-ga";
 import * as serviceWorker from "./serviceWorker";
+
+ReactGA.initialize("UA-22343418-7");
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const theme = createMuiTheme({
   palette: {

@@ -3,8 +3,9 @@ import { Grid, MenuItem } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
-import { api } from "./../api/Api";
+import { api } from "../api/Api";
 import { CodeName } from "./../api/ReferenceController";
+import ReactGA from "react-ga";
 
 const identityTypes = [
   {
@@ -22,6 +23,10 @@ const indentityIssueTypes = ["МЮ РК", "МВД РК"];
 const Step4 = () => {
   const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
+    ReactGA.event({
+      category: "Socialcard_continue_4",
+      action: "continue_4",
+    });
     setStep(4);
   };
 
