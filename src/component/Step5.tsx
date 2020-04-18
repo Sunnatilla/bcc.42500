@@ -21,22 +21,24 @@ const Step5 = () => {
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
-    setLoading(true);
-    api.camunda
-      .start({ client: model })
-      .then(() => {
-        setLoading(false);
-        setStep(5);
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        showError(true);
-      });
+    //setLoading(true);
+    console.log("model --- ", model);
+    // api.camunda
+    //   .start({ client: model })
+    //   .then(() => {
+    //     setLoading(false);
+    //     setStep(5);
+    //   })
+    //   .catch((e: any) => {
+    //     setLoading(false);
+    //     showError(true);
+    //   });
   };
 
   const [regions, setRegions] = useState([] as KatoModel[]);
   const [districts, setDistricts] = useState([] as KatoModel[]);
-  const [villages, setVillages] = useState([] as KatoModel[]);
+  const [cities, setCities] = useState([] as KatoModel[]);
+  const [cityParts, setCityParts] = useState([] as KatoModel[]);
 
   useEffect(() => {
     api.kato.getRegions().then((m) => setRegions(m));
@@ -53,10 +55,12 @@ const Step5 = () => {
 
     changeModel(
       (g) => g.address,
-      (s: Address) => {
-        s.region = { code: r?.te, name: r?.rus_name };
-        s.district = { code: "", name: "" };
-        s.village = "";
+      (s: Address[]) => {
+        s[0] = {
+          ...s[0],
+          region: { code: r?.te, name: r?.rus_name },
+          district: { code: "", name: "" },
+        };
         return s;
       }
     );
@@ -65,7 +69,8 @@ const Step5 = () => {
       .getKatoChildren(e.target.value)
       .then((m) => {
         setDistricts(m.districts || []);
-        setVillages([...(m.cities || []), ...(m.villages || [])]);
+        setCities(m.cities || []);
+        setCityParts(m.villages || []);
       })
       .catch((e) => {});
   };
@@ -81,15 +86,20 @@ const Step5 = () => {
 
     changeModel(
       (g) => g.address,
-      (s: Address) => {
-        s.district = { code: r?.te, name: r?.rus_name };
-        s.village = "";
+      (s: Address[]) => {
+        s[0] = {
+          ...s[0],
+          district: { code: r?.te, name: r?.rus_name },
+          city: { code: "", name: "" },
+          cityPart: { code: "", name: "" },
+        };
         return s;
       }
     );
 
     api.kato.getKatoChildren(e.target.value).then((m) => {
-      setVillages([...(m.cities || []), ...(m.villages || [])]);
+      setCities(m.cities || []);
+      setCityParts(m.villages || []);
     });
   };
 
@@ -111,7 +121,7 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.region?.code}
+                value={model.address?.[0].region?.code}
                 onChange={(e: any) => changeRegion(e, changeModel)}
                 required
               >
@@ -130,9 +140,11 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.district?.code}
+                value={model.address?.[0].district?.code}
                 onChange={(e: any) => changeDistrict(e, changeModel)}
-                required={districts.length > 0 && !model.address?.village}
+                required={
+                  districts.length > 0 && !model.address?.[0].city?.name
+                }
               >
                 <option></option>
                 {districts?.map((m) => (
@@ -142,24 +154,69 @@ const Step5 = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
-                label="Город/Село"
+                label="Город"
                 variant="filled"
                 fullWidth={true}
                 select
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.village}
+                value={model.address?.[0].city?.name}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.address?.village,
-                    (s) => e.target.value
+                    (g) => g.address,
+                    (s: Address[]) => {
+                      s[0] = {
+                        ...s[0],
+                        city: { code: e.target.value, name: e.target.value },
+                        village: { code: e.target.value, name: e.target.value },
+                      };
+                      return s;
+                    }
                   )
                 }
-                required={villages.length > 0}
+                required={
+                  cities.length > 0 && !model.address?.[0].cityPart?.name
+                }
               >
                 <option></option>
-                {villages?.map((m) => (
+                {cities?.map((m) => (
+                  <option value={m.rus_name}>{m.rus_name}</option>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                label="Село"
+                variant="filled"
+                fullWidth={true}
+                select
+                SelectProps={{
+                  native: true,
+                }}
+                value={model.address?.[0].cityPart?.name}
+                onChange={(e: any) =>
+                  changeModel(
+                    (g) => g.address,
+                    (s: Address[]) => {
+                      s[0] = {
+                        ...s[0],
+                        cityPart: {
+                          code: e.target.value,
+                          name: e.target.value,
+                        },
+                        village: { code: e.target.value, name: e.target.value },
+                      };
+                      return s;
+                    }
+                  )
+                }
+                required={
+                  cityParts.length > 0 && !model.address?.[0].city?.name
+                }
+              >
+                <option></option>
+                {cityParts?.map((m) => (
                   <option value={m.rus_name}>{m.rus_name}</option>
                 ))}
               </TextField>
@@ -171,10 +228,10 @@ const Step5 = () => {
                     label="Улица"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.street?.toUpperCase()}
+                    value={model.address?.[0].street?.name?.toUpperCase()}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.street,
+                        (g) => g.address?.[0].street?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }
@@ -186,10 +243,10 @@ const Step5 = () => {
                     label="Дом"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.house?.toUpperCase()}
+                    value={model.address?.[0].houseNumber?.name?.toUpperCase()}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.house,
+                        (g) => g.address?.[0].houseNumber?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }
@@ -201,10 +258,10 @@ const Step5 = () => {
                     label="Квартира"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.flat?.toUpperCase()}
+                    value={model.address?.[0].flat?.name?.toUpperCase() || ""}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.flat,
+                        (g) => g.address?.[0].flat?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }

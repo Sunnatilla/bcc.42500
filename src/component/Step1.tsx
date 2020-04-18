@@ -46,7 +46,10 @@ export const Step1 = () => {
     e.preventDefault();
     setLoading(true);
     api.authOtp
-      .sendOtp({ iin: model.iin, phone: model.phoneNumber })
+      .sendOtp({
+        iin: model.taxIdentificationNumber?.code,
+        phone: model.contactData?.[0].phoneNumber,
+      })
       .then(() => {
         localStorage.removeItem("userContext");
         setLoading(false);
@@ -74,10 +77,10 @@ export const Step1 = () => {
                 label="ИИН"
                 maxLength={12}
                 isNumeric={true}
-                value={model.iin}
+                value={model.taxIdentificationNumber?.code}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.iin,
+                    (g) => g.taxIdentificationNumber?.code,
                     (s) => e.target.value
                   )
                 }
@@ -93,10 +96,10 @@ export const Step1 = () => {
                 variant="filled"
                 fullWidth={true}
                 label="Номер телефона"
-                value={model.phoneNumber}
+                value={model.contactData?.[0].phoneNumber}
                 onChangeValue={(value: string) =>
                   changeModel(
-                    (g) => g.phoneNumber,
+                    (g) => g.contactData?.[0].phoneNumber,
                     (s) => value
                   )
                 }

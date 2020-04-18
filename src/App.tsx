@@ -32,8 +32,36 @@ const Alert = (props: any) => {
 function App() {
   const [step, setStep] = useState(0);
   const [model, setModel] = useState({
-    identity: {},
-    address: {},
+    taxIdentificationNumber: {
+      code: "",
+    },
+    contactData: [
+      {
+        type: { code: "MOB", value: "82" },
+        kind: { name: "Лич", value: "1", code: "PERSON", key: "8" },
+        phoneNumber: "",
+        provider: "",
+        isDefault: true,
+      },
+    ],
+    identity: [{ type: {}, issueCountry: "Казахстан" }],
+    address: [
+      {
+        type: { code: "002" },
+        country: "Казахстан",
+        countryCode: "KZ",
+        region: {},
+        district: { name: "" },
+        city: { name: "" },
+        cityPart: { name: "" },
+        street: { name: "" },
+        houseNumber: { code: "" },
+        flat: { name: "" },
+        cityZone: { name: "" },
+        zip: "",
+        fullAddress: "Казахстан",
+      },
+    ],
   } as BaseModel);
   const [openError, setOpenError] = useState(false);
   const [isLoading, setLoading] = useState(false);

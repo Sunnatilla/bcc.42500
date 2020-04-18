@@ -55,8 +55,8 @@ const Step2 = () => {
     setLoading(true);
     api.authOtp
       .confirmOtp({
-        iin: model.iin,
-        phone: model.phoneNumber,
+        iin: model.taxIdentificationNumber?.code,
+        phone: model.contactData?.[0].phoneNumber,
         otp,
       })
       .then((userContext) => {
@@ -77,7 +77,10 @@ const Step2 = () => {
   ) => {
     setLoading(true);
     api.authOtp
-      .sendOtp({ iin: model.iin, phone: model.phoneNumber })
+      .sendOtp({
+        iin: model.taxIdentificationNumber?.code,
+        phone: model.contactData?.[0].phoneNumber,
+      })
       .then(() => {
         setLoading(false);
         setTimer(90);

@@ -39,10 +39,10 @@ const Step4 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.identity?.type || ""}
+                value={model.identity?.[0].type || ""}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.identity?.type,
+                    (g) => g.identity?.[0].type,
                     (s) => e.target.value
                   )
                 }
@@ -59,10 +59,10 @@ const Step4 = () => {
                   variant="filled"
                   fullWidth={true}
                   isNumeric={true}
-                  value={model.identity?.number}
+                  value={model.identity?.[0].number}
                   onChange={(e: any) =>
                     changeModel(
-                      (g) => g.identity?.number,
+                      (g) => g.identity?.[0].number,
                       (s) => e.target.value
                     )
                   }
@@ -78,10 +78,10 @@ const Step4 = () => {
                   SelectProps={{
                     native: true,
                   }}
-                  value={model.identity?.issue?.toUpperCase()}
+                  value={model.identity?.[0].issuer?.toUpperCase()}
                   onChange={(e: any) =>
                     changeModel(
-                      (g) => g.identity?.issue,
+                      (g) => g.identity?.[0].issuer,
                       (s) => e.target.value?.toUpperCase()
                     )
                   }
@@ -97,7 +97,7 @@ const Step4 = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <DatePicker
-                      value={model.identity?.issueDate || null}
+                      value={model.identity?.[0].issueDate || null}
                       required
                       inputProps={{
                         pattern:
@@ -106,7 +106,7 @@ const Step4 = () => {
                       }}
                       onChange={(date) =>
                         changeModel(
-                          (g) => g.identity?.issueDate,
+                          (g) => g.identity?.[0].issueDate,
                           (s) => date?.format("MM/DD/YYYY")
                         )
                       }
@@ -115,7 +115,7 @@ const Step4 = () => {
                   </Grid>
                   <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <DatePicker
-                      value={model.identity?.expireDate || null}
+                      value={model.identity?.[0].expirationDate || null}
                       required
                       inputProps={{
                         pattern:
@@ -124,7 +124,7 @@ const Step4 = () => {
                       }}
                       onChange={(date) =>
                         changeModel(
-                          (g) => g.identity?.expireDate,
+                          (g) => g.identity?.[0].expirationDate,
                           (s) => date?.format("MM/DD/YYYY")
                         )
                       }

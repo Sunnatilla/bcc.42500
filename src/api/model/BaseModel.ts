@@ -1,29 +1,57 @@
 import { CodeName } from "../ReferenceController";
 
 export interface BaseModel {
-  iin?: string;
-  phoneNumber?: string;
+  taxIdentificationNumber?: CodeName;
+  contactData?: ContactData[];
   firstName?: string;
   lastName?: string;
   middleName?: string;
   birthDate?: string;
-  identity?: Identity;
-  address?: Address;
+  identity?: Identity[];
+  address?: Address[];
+}
+
+export class ContactData {
+  nord?: number;
+  type?: CodeName;
+  kind?: CodeName;
+  phoneNumber?: string;
+  isDefault?: boolean;
+  provider?: string;
 }
 
 export interface Identity {
-  type?: string;
+  nord?: number;
+  type?: CodeName;
+  typeExtCoderd?: string;
   number?: string;
-  issue?: string;
-  issueDate?: string;
-  expireDate?: string;
+  issueDate?: Date | string;
+  issueCountry?: string;
+  expirationDate?: Date | string;
+  issuer?: string;
+  isDefault?: boolean;
+  isArchival?: boolean;
 }
 
 export interface Address {
+  nord?: number;
+  type?: CodeName;
+  country?: string;
+  countryCode?: string;
+  isCityRegion?: boolean;
   region?: CodeName;
   district?: CodeName;
-  village?: string;
-  street?: string;
-  house?: string;
-  flat?: string;
+  city?: CodeName;
+  cityPart?: CodeName;
+  street?: CodeName;
+  houseNumber?: CodeName;
+  flat?: CodeName;
+  zip?: string;
+  kind?: CodeName;
+  okato?: string;
+  fullAddress?: string;
+  cityZone?: CodeName;
+  village?: CodeName;
+  villageType?: CodeName;
+  streetType?: CodeName;
 }
