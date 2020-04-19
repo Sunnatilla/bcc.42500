@@ -32,7 +32,7 @@ export class AuthOtpController {
 
   async confirmOtp(request?: OtpRequest): Promise<UserContext> {
     return await server.post(
-      `/camunda/auth/login/public`,
+      `/auth/login/public`,
       {
         ...request,
       },

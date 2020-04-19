@@ -34,14 +34,14 @@ export class KatoModel {
 
 export class KatoController {
   async getRegions(): Promise<KatoModel[]> {
-    return await server.get(`/reference/api/kato/regions`, {
-      baseURL: webConfigEnv.GREEN_API,
+    return await server.get(`/api/kato/regions`, {
+      baseURL: webConfigEnv.REFERENCE_API,
     });
   }
 
   async getKatoChildren(te?: string): Promise<KatoBaseModel> {
-    return await server.get(`/reference/api/kato/children/new/${te}`, {
-      baseURL: webConfigEnv.GREEN_API,
+    return await server.get(`/api/kato/children/new/${te}`, {
+      baseURL: webConfigEnv.REFERENCE_API,
     });
   }
 }

@@ -4,7 +4,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button } from ".";
 import { BaseModel, Address } from "../api/model/BaseModel";
-import { api } from "../api/Api";
+import { api } from "../api/ApiRest";
 import { KatoModel } from "../api/KatoController";
 import { CodeName } from "../api/ReferenceController";
 import ReactGA from "react-ga";
@@ -22,18 +22,6 @@ const Step5 = () => {
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
-    //setLoading(true);
-    console.log("model --- ", model);
-    // api.camunda
-    //   .start({ client: model })
-    //   .then(() => {
-    //     setLoading(false);
-    //     setStep(5);
-    //   })
-    //   .catch((e: any) => {
-    //     setLoading(false);
-    //     showError(true);
-    //   });
     ReactGA.event({
       category: "Socialcard_continue_5",
       action: "continue_5",

@@ -8,7 +8,7 @@ import {
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { Button, TextField, PhoneNumber } from ".";
-import { api } from "../api/Api";
+import { api } from "../api/ApiRest";
 import { BaseModel } from "../api/model/BaseModel";
 import ReactGA from "react-ga";
 

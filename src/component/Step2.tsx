@@ -3,7 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button } from ".";
-import { api } from "../api/Api";
+import { api } from "../api/ApiRest";
 import { BaseModel } from "../api/model/BaseModel";
 import ReactGA from "react-ga";
 

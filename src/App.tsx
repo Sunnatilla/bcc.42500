@@ -80,6 +80,7 @@ function App() {
   return (
     <div>
       <Snackbar
+        style={{ zIndex: 3000 }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center",
