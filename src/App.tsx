@@ -18,7 +18,7 @@ import BlockUi from "react-block-ui";
 import "react-block-ui/style.css";
 
 export const AppContext = React.createContext({
-  model: { identity: {}, address: {} } as BaseModel,
+  model: {} as BaseModel,
   setStep: (step: number) => {},
   changeModel: (getProp: (g: BaseModel) => any, setProp: (s: any) => any) => {},
   setOpenError: (open: boolean) => {},
@@ -44,8 +44,8 @@ function App() {
         isDefault: true,
       },
     ],
-    identity: [{ type: {}, issueCountry: "Казахстан" }],
-    address: [
+    identDocument: [{ type: {}, issueCountry: "Казахстан" }],
+    addresses: [
       {
         type: { code: "002" },
         country: "Казахстан",

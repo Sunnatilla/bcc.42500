@@ -7,7 +7,7 @@ import { api } from "../api/ApiRest";
 import { CodeName } from "./../api/ReferenceController";
 import ReactGA from "react-ga";
 
-const identityTypes = [
+const identDocumentTypes = [
   {
     name: "Паспорт гражданина Республики Казахстан",
     description: "Паспорт гражданина Республики Казахстан",
@@ -44,17 +44,19 @@ const Step4 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.identity?.[0].type || ""}
-                onChange={(e: any) =>
+                value={model.identDocument?.[0].type || ""}
+                onChange={(e: any) => {
+                  console.log("target.value --- ", e.target.value);
+                  console.log("model --- ", JSON.stringify(model));
                   changeModel(
-                    (g) => g.identity?.[0].type,
+                    (g) => g.identDocument?.[0].type,
                     (s) => e.target.value
-                  )
-                }
+                  );
+                }}
                 required
               >
                 <option></option>
-                {identityTypes?.map((m) => (
+                {identDocumentTypes?.map((m) => (
                   <option value={m.name}>{m.description}</option>
                 ))}
               </TextField>
@@ -64,10 +66,10 @@ const Step4 = () => {
                   variant="filled"
                   fullWidth={true}
                   isNumeric={true}
-                  value={model.identity?.[0].number}
+                  value={model.identDocument?.[0].number}
                   onChange={(e: any) =>
                     changeModel(
-                      (g) => g.identity?.[0].number,
+                      (g) => g.identDocument?.[0].number,
                       (s) => e.target.value
                     )
                   }
@@ -83,10 +85,10 @@ const Step4 = () => {
                   SelectProps={{
                     native: true,
                   }}
-                  value={model.identity?.[0].issuer?.toUpperCase()}
+                  value={model.identDocument?.[0].issuer?.toUpperCase()}
                   onChange={(e: any) =>
                     changeModel(
-                      (g) => g.identity?.[0].issuer,
+                      (g) => g.identDocument?.[0].issuer,
                       (s) => e.target.value?.toUpperCase()
                     )
                   }
@@ -102,7 +104,7 @@ const Step4 = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <DatePicker
-                      value={model.identity?.[0].issueDate || null}
+                      value={model.identDocument?.[0].issueDate || null}
                       required
                       inputProps={{
                         pattern:
@@ -111,7 +113,7 @@ const Step4 = () => {
                       }}
                       onChange={(date) =>
                         changeModel(
-                          (g) => g.identity?.[0].issueDate,
+                          (g) => g.identDocument?.[0].issueDate,
                           (s) => date?.format("MM/DD/YYYY")
                         )
                       }
@@ -120,7 +122,7 @@ const Step4 = () => {
                   </Grid>
                   <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <DatePicker
-                      value={model.identity?.[0].expirationDate || null}
+                      value={model.identDocument?.[0].expirationDate || null}
                       required
                       inputProps={{
                         pattern:
@@ -129,7 +131,7 @@ const Step4 = () => {
                       }}
                       onChange={(date) =>
                         changeModel(
-                          (g) => g.identity?.[0].expirationDate,
+                          (g) => g.identDocument?.[0].expirationDate,
                           (s) => date?.format("MM/DD/YYYY")
                         )
                       }

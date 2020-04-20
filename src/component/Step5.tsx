@@ -29,13 +29,14 @@ const Step5 = () => {
     setLoading(true);
     api.camunda
       .start({ client: model })
-      .then(() => {
+      .then((model) => {
         ReactGA.event({
           category: "Application_successfully",
           action: "successfully",
         });
         setLoading(false);
-        setStep(5);
+
+        if (model.variables.в) setStep(5);
       })
       .catch((e: any) => {
         setLoading(false);
@@ -62,7 +63,7 @@ const Step5 = () => {
     const r = regions?.find((m) => m.te === e.target.value);
 
     changeModel(
-      (g) => g.address,
+      (g) => g.addresses,
       (s: Address[]) => {
         s[0] = {
           ...s[0],
@@ -93,7 +94,7 @@ const Step5 = () => {
     const r = districts?.find((m) => m.te === e.target.value);
 
     changeModel(
-      (g) => g.address,
+      (g) => g.addresses,
       (s: Address[]) => {
         s[0] = {
           ...s[0],
@@ -129,7 +130,7 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.[0].region?.code}
+                value={model.addresses?.[0].region?.code}
                 onChange={(e: any) => changeRegion(e, changeModel)}
                 required
               >
@@ -148,10 +149,10 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.[0].district?.code}
+                value={model.addresses?.[0].district?.code}
                 onChange={(e: any) => changeDistrict(e, changeModel)}
                 required={
-                  districts.length > 0 && !model.address?.[0].city?.name
+                  districts.length > 0 && !model.addresses?.[0].city?.name
                 }
               >
                 <option></option>
@@ -169,10 +170,10 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.[0].city?.name}
+                value={model.addresses?.[0].city?.name}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.address,
+                    (g) => g.addresses,
                     (s: Address[]) => {
                       s[0] = {
                         ...s[0],
@@ -184,7 +185,7 @@ const Step5 = () => {
                   )
                 }
                 required={
-                  cities.length > 0 && !model.address?.[0].cityPart?.name
+                  cities.length > 0 && !model.addresses?.[0].cityPart?.name
                 }
               >
                 <option></option>
@@ -202,10 +203,10 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.address?.[0].cityPart?.name}
+                value={model.addresses?.[0].cityPart?.name}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.address,
+                    (g) => g.addresses,
                     (s: Address[]) => {
                       s[0] = {
                         ...s[0],
@@ -220,7 +221,7 @@ const Step5 = () => {
                   )
                 }
                 required={
-                  cityParts.length > 0 && !model.address?.[0].city?.name
+                  cityParts.length > 0 && !model.addresses?.[0].city?.name
                 }
               >
                 <option></option>
@@ -236,10 +237,10 @@ const Step5 = () => {
                     label="Улица"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.[0].street?.name?.toUpperCase()}
+                    value={model.addresses?.[0].street?.name?.toUpperCase()}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.[0].street?.name,
+                        (g) => g.addresses?.[0].street?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }
@@ -251,10 +252,10 @@ const Step5 = () => {
                     label="Дом"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.[0].houseNumber?.name?.toUpperCase()}
+                    value={model.addresses?.[0].houseNumber?.name?.toUpperCase()}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.[0].houseNumber?.name,
+                        (g) => g.addresses?.[0].houseNumber?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }
@@ -266,10 +267,10 @@ const Step5 = () => {
                     label="Квартира"
                     variant="filled"
                     fullWidth={true}
-                    value={model.address?.[0].flat?.name?.toUpperCase() || ""}
+                    value={model.addresses?.[0].flat?.name?.toUpperCase() || ""}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.address?.[0].flat?.name,
+                        (g) => g.addresses?.[0].flat?.name,
                         (s) => e.target.value.toUpperCase()
                       )
                     }

@@ -7,8 +7,8 @@ export interface BaseModel {
   lastName?: string;
   middleName?: string;
   birthDate?: string;
-  identity?: Identity[];
-  address?: Address[];
+  identDocument?: Identity[];
+  addresses?: Address[];
 }
 
 export class ContactData {
