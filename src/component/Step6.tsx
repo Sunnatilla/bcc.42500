@@ -69,64 +69,68 @@ const Step6 = () => {
     setShowErrorMsg: (message: string) => void,
     setLoading: (loading: boolean) => void
   ) => {
-    ReactGA.event({
-      category: "Socialcard_continue_5",
-      action: "continue_5",
-    });
-    setLoading(true);
-    api.camunda
-      .start({ client: model })
-      .then((response) => {
-        ReactGA.event({
-          category: "Application_successfully",
-          action: "successfully",
-        });
-        setLoading(false);
+    if (!!selectedMarker.depCode) {
+      ReactGA.event({
+        category: "Socialcard_continue_5",
+        action: "continue_5",
+      });
+      setLoading(true);
+      api.camunda
+        .start({ client: model })
+        .then((response) => {
+          ReactGA.event({
+            category: "Application_successfully",
+            action: "successfully",
+          });
+          setLoading(false);
 
-        const model = response.variables;
+          const model = response.variables;
 
-        if (
-          model.clientExist.data.length == 0 &&
-          model.phoneExist.data.length > 0
-        ) {
-          setShowErrorMsg(
-            "Введеный номер телефона принадлежит другому клиенту"
-          );
-        } else if (
-          model.clientExist.data.length > 0 &&
-          model.phoneExist.data.length == 0
-        ) {
-          setShowErrorMsg("Введеный номер телефона не является доверенным");
-        } else if (
-          model.clientExist.data.length == 0 &&
-          model.phoneExist.data.length == 0
-        ) {
-          if (model.isLongNameFLCorrect == false) {
-            setShowErrorMsg("Введены неправильные данные ФИО");
-          } else if (model.createClientResult.data.p_errfl != null) {
-            setOpenError(true);
-          } else if (model.controlCardError == true) {
-            setOpenError(true);
+          if (
+            model.clientExist.data.length == 0 &&
+            model.phoneExist.data.length > 0
+          ) {
+            setShowErrorMsg(
+              "Введеный номер телефона принадлежит другому клиенту"
+            );
+          } else if (
+            model.clientExist.data.length > 0 &&
+            model.phoneExist.data.length == 0
+          ) {
+            setShowErrorMsg("Введеный номер телефона не является доверенным");
+          } else if (
+            model.clientExist.data.length == 0 &&
+            model.phoneExist.data.length == 0
+          ) {
+            if (model.isLongNameFLCorrect == false) {
+              setShowErrorMsg("Введены неправильные данные ФИО");
+            } else if (model.createClientResult.data.p_errfl != null) {
+              setOpenError(true);
+            } else if (model.controlCardError == true) {
+              setOpenError(true);
+            } else {
+              setStep(6);
+            }
+          } else if (
+            model.clientExist.data.length > 0 &&
+            model.phoneExist.data.length > 0 &&
+            model.client.taxIdentificationNumber.code !=
+              model.phoneExist.data[0].iin
+          ) {
+            setShowErrorMsg(
+              "Введеный номер телефона принадлежит другому клиенту"
+            );
           } else {
             setStep(6);
           }
-        } else if (
-          model.clientExist.data.length > 0 &&
-          model.phoneExist.data.length > 0 &&
-          model.client.taxIdentificationNumber.code !=
-            model.phoneExist.data[0].iin
-        ) {
-          setShowErrorMsg(
-            "Введеный номер телефона принадлежит другому клиенту"
-          );
-        } else {
-          setStep(6);
-        }
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        setOpenError(true);
-      });
+        })
+        .catch((e: any) => {
+          setLoading(false);
+          setOpenError(true);
+        });
+    } else {
+      setOpenError(true);
+    }
   };
 
   return (
