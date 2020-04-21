@@ -9,6 +9,7 @@ export interface BaseModel {
   birthDate?: string;
   identDocument?: Identity[];
   addresses?: Address[];
+  department?: CodeName;
 }
 
 export class ContactData {

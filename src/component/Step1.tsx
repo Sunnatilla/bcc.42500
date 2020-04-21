@@ -41,7 +41,7 @@ export const Step1 = () => {
     e: any,
     model: BaseModel,
     setStep: (step: number) => void,
-    showError: (open: boolean) => void,
+    setOpenError: (open: boolean) => void,
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ export const Step1 = () => {
       })
       .catch((e: any) => {
         setLoading(false);
-        showError(true);
+        setOpenError(true);
       });
   };
 

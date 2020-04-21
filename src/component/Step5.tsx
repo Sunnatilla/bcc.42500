@@ -14,73 +14,9 @@ const useStyles = makeStyles((theme: Theme) => createStyles({}));
 const Step5 = () => {
   const classes = useStyles();
 
-  const onSubmit = (
-    e: any,
-    model: BaseModel,
-    setStep: (step: number) => void,
-    showError: (open: boolean) => void,
-    setShowErrorMsg: (message: string) => void,
-    setLoading: (loading: boolean) => void
-  ) => {
+  const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
-    ReactGA.event({
-      category: "Socialcard_continue_5",
-      action: "continue_5",
-    });
-    setLoading(true);
-    api.camunda
-      .start({ client: model })
-      .then((response) => {
-        ReactGA.event({
-          category: "Application_successfully",
-          action: "successfully",
-        });
-        setLoading(false);
-
-        const model = response.variables;
-
-        if (
-          model.clientExist.data.length == 0 &&
-          model.phoneExist.data.length > 0
-        ) {
-          setShowErrorMsg(
-            "Введеный номер телефона принадлежит другому клиенту"
-          );
-        } else if (
-          model.clientExist.data.length > 0 &&
-          model.phoneExist.data.length == 0
-        ) {
-          setShowErrorMsg("Введеный номер телефона не является доверенным");
-        } else if (
-          model.clientExist.data.length == 0 &&
-          model.phoneExist.data.length == 0
-        ) {
-          if (model.isLongNameFLCorrect == false) {
-            setShowErrorMsg("Введены неправильные данные ФИО");
-          } else if (model.createClientResult.data.p_errfl != null) {
-            showError(true);
-          } else if (model.controlCardError == true) {
-            showError(true);
-          } else {
-            setStep(6);
-          }
-        } else if (
-          model.clientExist.data.length > 0 &&
-          model.phoneExist.data.length > 0 &&
-          model.client.taxIdentificationNumber.code !=
-            model.phoneExist.data[0].iin
-        ) {
-          setShowErrorMsg(
-            "Введеный номер телефона принадлежит другому клиенту"
-          );
-        } else {
-          setStep(6);
-        }
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        showError(true);
-      });
+    setStep(5);
   };
 
   const [regions, setRegions] = useState([] as KatoModel[]);
@@ -154,26 +90,8 @@ const Step5 = () => {
 
   return (
     <AppContext.Consumer>
-      {({
-        model,
-        changeModel,
-        setStep,
-        setOpenError,
-        setShowErrorMsg,
-        setLoading,
-      }) => (
-        <form
-          onSubmit={(e: any) =>
-            onSubmit(
-              e,
-              model,
-              setStep,
-              setOpenError,
-              setShowErrorMsg,
-              setLoading
-            )
-          }
-        >
+      {({ model, changeModel, setStep }) => (
+        <form onSubmit={(e: any) => onSubmit(e, setStep)}>
           <Grid container>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField

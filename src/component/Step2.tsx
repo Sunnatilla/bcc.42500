@@ -49,7 +49,7 @@ const Step2 = () => {
     e: any,
     model: BaseModel,
     setStep: (step: number) => void,
-    showError: (open: boolean) => void,
+    setOpenError: (open: boolean) => void,
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
@@ -71,13 +71,13 @@ const Step2 = () => {
       })
       .catch((e: any) => {
         setLoading(false);
-        showError(true);
+        setOpenError(true);
       });
   };
 
   const onReSend = (
     model: BaseModel,
-    showError: (open: boolean) => void,
+    setOpenError: (open: boolean) => void,
     setLoading: (loading: boolean) => void
   ) => {
     setLoading(true);
@@ -93,7 +93,7 @@ const Step2 = () => {
       })
       .catch((e) => {
         setLoading(false);
-        showError(true);
+        setOpenError(true);
       });
   };
 

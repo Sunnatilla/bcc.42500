@@ -167,7 +167,7 @@ function App() {
             {step === 1 && (
               <Stepper
                 title="Шаг 2: Подтверждение номера"
-                percent={20}
+                percent={17}
                 step={2}
               >
                 <Step2 />
@@ -176,7 +176,7 @@ function App() {
             {step === 2 && (
               <Stepper
                 title="Шаг 3: Заполнение личных данных"
-                percent={40}
+                percent={33}
                 step={3}
               >
                 <Step3 />
@@ -185,18 +185,22 @@ function App() {
             {step === 3 && (
               <Stepper
                 title="Шаг 4: Документ, удостверяющий личность"
-                percent={60}
+                percent={50}
                 step={4}
               >
                 <Step4 />
               </Stepper>
             )}
             {step === 4 && (
-              <Stepper title="Шаг 5: Адреса" percent={80} step={5}>
+              <Stepper title="Шаг 5: Адреса" percent={67} step={5}>
                 <Step5 />
               </Stepper>
             )}
-            {step === 5 && <Step6 />}
+            {step === 5 && (
+              <Stepper title="Шаг 6: Выберите отделение" percent={84} step={5}>
+                <Step6 />
+              </Stepper>
+            )}
             {step === 6 && <Step7 />}
           </div>
         </AppContext.Provider>

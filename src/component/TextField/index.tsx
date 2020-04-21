@@ -90,13 +90,14 @@ const BccInputText = (
     shrink,
     inputProps,
     InputProps,
+    style,
     ...others
   } = props;
 
   return (
     <TextField
       {...others}
-      style={{ height: "56px", marginTop: 24 }}
+      style={{ height: "56px", marginTop: 24, ...style }}
       inputProps={{
         ...inputProps,
         maxLength,
