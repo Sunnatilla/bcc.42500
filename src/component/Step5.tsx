@@ -62,7 +62,7 @@ const Step5 = () => {
           } else if (model.controlCardError == true) {
             showError(true);
           } else {
-            setStep(5);
+            setStep(6);
           }
         } else if (
           model.clientExist.data.length > 0 &&
@@ -74,7 +74,7 @@ const Step5 = () => {
             "Введеный номер телефона принадлежит другому клиенту"
           );
         } else {
-          setStep(5);
+          setStep(6);
         }
       })
       .catch((e: any) => {

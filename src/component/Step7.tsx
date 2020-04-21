@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Step6 = () => {
+const Step7 = () => {
   const classes = useStyles();
 
   return (
@@ -151,4 +151,4 @@ const Step6 = () => {
   );
 };
 
-export default Step6;
+export default Step7;

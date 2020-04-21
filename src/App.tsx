@@ -9,6 +9,7 @@ import {
   Step4,
   Step5,
   Step6,
+  Step7,
 } from "./component";
 import "./App.css";
 import { BaseModel } from "./api/model/BaseModel";
@@ -31,7 +32,7 @@ const Alert = (props: any) => {
 };
 
 function App() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(5);
   const [model, setModel] = useState({
     colvirId: undefined,
     code: "",
@@ -157,7 +158,7 @@ function App() {
           }}
         >
           <div>
-            <Header showCard={step !== 5} />
+            <Header showCard={step !== 6} />
             {step === 0 && (
               <Stepper title="Шаг 1: Заполнение данных" percent={0} step={1}>
                 <Step1 />
@@ -196,6 +197,7 @@ function App() {
               </Stepper>
             )}
             {step === 5 && <Step6 />}
+            {step === 6 && <Step7 />}
           </div>
         </AppContext.Provider>
       </BlockUi>

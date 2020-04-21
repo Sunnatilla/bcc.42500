@@ -5,6 +5,7 @@ export { default as Step3 } from "./Step3";
 export { default as Step4 } from "./Step4";
 export { default as Step5 } from "./Step5";
 export { default as Step6 } from "./Step6";
+export { default as Step7 } from "./Step7";
 export { default as Stepper } from "./Stepper";
 export { default as Button } from "./Button";
 export { default as TextField } from "./TextField";

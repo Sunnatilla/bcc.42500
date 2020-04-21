@@ -26,6 +26,7 @@
     "react-maskedinput": "^4.0.1",
     "react-number-format": "^4.4.1",
     "react-scripts": "3.4.1",
+    "react-yandex-maps": "^4.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
