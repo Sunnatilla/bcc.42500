@@ -66,7 +66,7 @@ const TextMaskCustom = (props: TextMaskCustomProps) => {
 
 const BccPhoneInputText = (
   props: TextFieldProps & {
-    onChangeValue?: (value: string) => void;
+    onChangeValue?: (value: string, providerCode: string) => void;
     onChangeProviderCode?: (value: string) => void;
   }
 ) => {
@@ -84,11 +84,10 @@ const BccPhoneInputText = (
   const onChangeCorrected = (value: string) => {
     if (!!onChangeValue) {
       value = value.replace(/ /g, "").replace("(", "").replace(")", "");
-      onChangeValue(value);
-      if (!!onChangeProviderCode) {
-        if (value.length >= 5) {
-          onChangeProviderCode(value.substr(2, 3));
-        }
+      if (value.length >= 5) {
+        onChangeValue(value, value.substr(2, 3));
+      } else {
+        onChangeValue(value, "");
       }
     }
   };

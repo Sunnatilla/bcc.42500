@@ -19,6 +19,7 @@ const Step5 = () => {
     model: BaseModel,
     setStep: (step: number) => void,
     showError: (open: boolean) => void,
+    setShowErrorMsg: (message: string) => void,
     setLoading: (loading: boolean) => void
   ) => {
     e.preventDefault();
@@ -29,14 +30,52 @@ const Step5 = () => {
     setLoading(true);
     api.camunda
       .start({ client: model })
-      .then((model) => {
+      .then((response) => {
         ReactGA.event({
           category: "Application_successfully",
           action: "successfully",
         });
         setLoading(false);
 
-        if (model.variables.в) setStep(5);
+        const model = response.variables;
+
+        if (
+          model.clientExist.data.length == 0 &&
+          model.phoneExist.data.length > 0
+        ) {
+          setShowErrorMsg(
+            "Введеный номер телефона принадлежит другому клиенту"
+          );
+        } else if (
+          model.clientExist.data.length > 0 &&
+          model.phoneExist.data.length == 0
+        ) {
+          setShowErrorMsg("Введеный номер телефона не является доверенным");
+        } else if (
+          model.clientExist.data.length == 0 &&
+          model.phoneExist.data.length == 0
+        ) {
+          if (model.isLongNameFLCorrect == false) {
+            setShowErrorMsg("Введены неправильные данные ФИО");
+          } else if (model.createClientResult.data.p_errfl != null) {
+            showError(true);
+          } else if (model.controlCardError == true) {
+            showError(true);
+          } else {
+            setStep(5);
+          }
+        } else if (
+          model.clientExist.data.length > 0 &&
+          model.phoneExist.data.length > 0 &&
+          model.client.taxIdentificationNumber.code !=
+            model.phoneExist.data[0].iin
+        ) {
+          setShowErrorMsg(
+            "Введеный номер телефона принадлежит другому клиенту"
+          );
+        } else {
+          setStep(5);
+        }
       })
       .catch((e: any) => {
         setLoading(false);
@@ -69,6 +108,7 @@ const Step5 = () => {
           ...s[0],
           region: { code: r?.te, name: r?.rus_name },
           district: { code: "", name: "" },
+          zip: r?.index,
         };
         return s;
       }
@@ -114,10 +154,24 @@ const Step5 = () => {
 
   return (
     <AppContext.Consumer>
-      {({ model, changeModel, setStep, setOpenError, setLoading }) => (
+      {({
+        model,
+        changeModel,
+        setStep,
+        setOpenError,
+        setShowErrorMsg,
+        setLoading,
+      }) => (
         <form
           onSubmit={(e: any) =>
-            onSubmit(e, model, setStep, setOpenError, setLoading)
+            onSubmit(
+              e,
+              model,
+              setStep,
+              setOpenError,
+              setShowErrorMsg,
+              setLoading
+            )
           }
         >
           <Grid container>

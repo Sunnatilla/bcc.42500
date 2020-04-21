@@ -102,10 +102,14 @@ export const Step1 = () => {
                 fullWidth={true}
                 label="Номер телефона"
                 value={model.contactData?.[0].phoneNumber}
-                onChangeValue={(value: string) =>
+                onChangeValue={(value: string, provider: string) =>
                   changeModel(
-                    (g) => g.contactData?.[0].phoneNumber,
-                    (s) => value
+                    (g) => g.contactData?.[0],
+                    (s) => {
+                      s.phoneNumber = value;
+                      s.provider = provider;
+                      return s;
+                    }
                   )
                 }
                 required

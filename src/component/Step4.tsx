@@ -44,12 +44,12 @@ const Step4 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.identDocument?.[0].type || ""}
+                value={model.identDocument?.[0].type?.name || ""}
                 onChange={(e: any) => {
                   console.log("target.value --- ", e.target.value);
                   console.log("model --- ", JSON.stringify(model));
                   changeModel(
-                    (g) => g.identDocument?.[0].type,
+                    (g) => g.identDocument?.[0].type?.name,
                     (s) => e.target.value
                   );
                 }}

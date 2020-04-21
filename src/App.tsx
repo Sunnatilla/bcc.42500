@@ -22,6 +22,7 @@ export const AppContext = React.createContext({
   setStep: (step: number) => {},
   changeModel: (getProp: (g: BaseModel) => any, setProp: (s: any) => any) => {},
   setOpenError: (open: boolean) => {},
+  setShowErrorMsg: (message: string) => {},
   setLoading: (loading: boolean) => {},
 });
 
@@ -32,18 +33,39 @@ const Alert = (props: any) => {
 function App() {
   const [step, setStep] = useState(0);
   const [model, setModel] = useState({
-    taxIdentificationNumber: {
-      code: "",
+    colvirId: undefined,
+    code: "",
+    department: { code: "KS8" },
+    type: "",
+    fullName: "",
+    shortName: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    birthDate: undefined,
+    birthDateString: "",
+    birthPlace: { name: "Казахстан", code: "KZ" },
+    roles: "",
+    taxIdentificationNumber: {},
+    state: {},
+    status: {},
+    typeExt: {},
+    kod: {},
+    isResident: false,
+    identicalAddress: false,
+    sex: "M",
+    fromDate: "",
+    dreg: "",
+    autCode: {},
+    sectorId: {
+      code: "9",
+      name:
+        "Домашние хоз-ва (население. частные предприниматели без образования юр.лица и ин",
     },
-    contactData: [
-      {
-        type: { code: "MOB", value: "82" },
-        kind: { name: "Лич", value: "1", code: "PERSON", key: "8" },
-        phoneNumber: "",
-        provider: "",
-        isDefault: true,
-      },
-    ],
+    country: { name: "Казахстан", code: "KZ" },
+    taxCountry: { name: "Казахстан", code: "KZ" },
+    residentCountry: { name: "Казахстан", code: "KZ" },
+    citizenCountry: { name: "Казахстан", code: "KZ" },
     identDocument: [{ type: {}, issueCountry: "Казахстан" }],
     addresses: [
       {
@@ -62,8 +84,23 @@ function App() {
         fullAddress: "Казахстан",
       },
     ],
+    contactData: [
+      {
+        type: { code: "MOB", value: "82" },
+        kind: { name: "Лич", value: "1", code: "PERSON", key: "8" },
+        phoneNumber: "",
+        provider: "",
+        isDefault: true,
+      },
+      {},
+    ],
+    deleteContacts: [],
+    additionalInfo: [{}],
+    hasChanges: false,
   } as BaseModel);
   const [openError, setOpenError] = useState(false);
+  const [openErrorMsg, setOpenErrorMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const changeModel = (
@@ -73,8 +110,9 @@ function App() {
     setModel(iassign(model, getProp, setProp, null));
   };
 
-  const handleClose = () => {
-    setOpenError(false);
+  const setShowErrorMsg = (message: string) => {
+    setErrorMsg(message);
+    setOpenErrorMsg(true);
   };
 
   return (
@@ -87,15 +125,36 @@ function App() {
         }}
         open={openError}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={() => setOpenError(false)}
       >
-        <Alert onClose={handleClose} severity="error">
+        <Alert onClose={() => setOpenError(false)} severity="error">
           Возникла непредвиденная ошибка!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        style={{ zIndex: 3000 }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={openErrorMsg}
+        autoHideDuration={6000}
+        onClose={() => setOpenErrorMsg(false)}
+      >
+        <Alert onClose={() => setOpenErrorMsg(false)} severity="error">
+          {errorMsg}
         </Alert>
       </Snackbar>
       <BlockUi tag="div" blocking={isLoading}>
         <AppContext.Provider
-          value={{ model, setStep, changeModel, setOpenError, setLoading }}
+          value={{
+            model,
+            setStep,
+            changeModel,
+            setOpenError,
+            setShowErrorMsg,
+            setLoading,
+          }}
         >
           <div>
             <Header showCard={step !== 5} />
