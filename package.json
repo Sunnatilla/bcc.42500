@@ -27,6 +27,7 @@
     "react-number-format": "^4.4.1",
     "react-scripts": "3.4.1",
     "react-yandex-maps": "^4.3.0",
+    "react-yandex-metrika": "^2.6.0",
     "typescript": "^3.7.5"
   },
   "scripts": {

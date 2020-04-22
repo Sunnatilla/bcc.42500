@@ -17,6 +17,7 @@ import { Snackbar } from "@material-ui/core";
 import { Alert as MuiAlert } from "@material-ui/lab";
 import BlockUi from "react-block-ui";
 import "react-block-ui/style.css";
+import { YMInitializer } from "react-yandex-metrika";
 
 export const AppContext = React.createContext({
   model: {} as BaseModel,
@@ -118,6 +119,16 @@ function App() {
 
   return (
     <div>
+      <YMInitializer
+        accounts={[61898595]}
+        options={{
+          clickmap: true,
+          trackLinks: true,
+          accurateTrackBounce: true,
+          webvisor: true,
+          trackHash: true,
+        }}
+      />
       <Snackbar
         style={{ zIndex: 3000 }}
         anchorOrigin={{
