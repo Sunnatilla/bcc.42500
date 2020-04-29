@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 40,
       height: 250,
       backgroundColor: "rgba(125, 206, 160, 0.1)",
+      padding: 12,
     },
     txtSend: {
       fontSize: 18,
@@ -72,13 +73,13 @@ const Step7 = () => {
           </Grid>
           <Grid item>
             <Typography className={classes.txtSend}>
-              Заявка успешно отправлена
+              Спасибо, заявка принята.
             </Typography>
           </Grid>
           <Grid item>
             <Typography className={classes.txtFollowInstruct}>
-              В ближайшее время мы вышлем Вам СМС с номером счёта и инструкцию
-              для дальнейших действий.
+              Смс-соощение с номером счета или дальнейшими инструкциями будет
+              направлено не позднее следующего дня с момента подачи заявки.
             </Typography>
           </Grid>
         </Grid>

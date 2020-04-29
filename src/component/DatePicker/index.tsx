@@ -76,13 +76,16 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&$focused": {
         backgroundColor: "#fff",
-        border: "2px solid #1F7042",
+        border: "2px solid #27AE60",
       },
       "&$disabled": {
         backgroundColor: "#fff",
       },
+      "& label": {
+        color: "#8B98A7",
+      },
       "& label.Mui-focused": {
-        color: "green",
+        color: "#8B98A7",
       },
     },
     focused: {},

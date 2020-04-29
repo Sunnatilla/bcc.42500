@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&$focused": {
         backgroundColor: "#fff",
-        border: "2px solid #1F7042",
+        border: "2px solid #27AE60",
       },
       "& label.Mui-focused": {
         color: "green",
@@ -118,8 +118,8 @@ const BccPhoneInputText = (
       }
       inputProps={{
         ...inputProps,
-        pattern: "^[+][7]\\s[(]\\d{3}[)]\\s\\d{3}\\s\\d{2}\\s\\d{2}$",
-        title: "Поле должно быть формата +7 (111) 111 11 11",
+        pattern: "^[+][7]\\s[(][7]\\d{2}[)]\\s\\d{3}\\s\\d{2}\\s\\d{2}$",
+        title: "Поле должно быть формата +7 (711) 111 11 11",
       }}
       {...others}
     />

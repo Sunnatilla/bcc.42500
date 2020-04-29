@@ -84,6 +84,25 @@ const Step3 = () => {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                variant="filled"
+                fullWidth={true}
+                label="Имя и фамилия на латинице"
+                value={model.fullNameLat?.toUpperCase()}
+                helperText="Укажите точно так же, как и у вас в удостоверении личности на обратной стороне"
+                onChange={(e: any) =>
+                  changeModel(
+                    (g) => g.fullNameLat,
+                    (s) => e.target.value.toUpperCase()
+                  )
+                }
+                inputProps={{
+                  pattern: "[a-zA-Z/ ]{2,30}",
+                  title: "Формат должен состоят только из букв Латиницы",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <DatePicker
                 value={model.birthDate || null}
                 required
@@ -103,7 +122,7 @@ const Step3 = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Button style={{ marginTop: 24 }} fullWidth={true} type="submit">
-                Подтвердить
+                Продолжить
               </Button>
             </Grid>
           </Grid>

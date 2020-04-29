@@ -8,12 +8,33 @@ import { Coordinate, Marker } from "../api/ReferenceController";
 import { AppContext } from "../App";
 import { BaseModel } from "../api/model/BaseModel";
 import ReactGA from "react-ga";
+import BccRadio from "./BccRadio/BccRadio";
+import BccRadioGroup from "./BccRadio/BccRadioGroup/BccRadioGroup";
+import BccFormControl from "./BccForm/BccFormControl/BccFormControl";
+import BccFormControlLabel from "./BccForm/BccFormControlLabel/BccFormControlLabel";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: "250px",
       width: "100%",
+      "& > div": {
+        marginBottom: 24,
+      },
+    },
+    map: {
+      width: "100%",
+      height: 250,
+    },
+    form: {
+      marginBottom: "0!important",
+      "& > div": {
+        width: "100%",
+        padding: 12,
+        "& > div": {
+          flexDirection: "row",
+          justifyContent: "space-between",
+        },
+      },
     },
   })
 );
@@ -25,6 +46,7 @@ const Step6 = () => {
   const [mapCenter, setMapCenter] = useState({} as MapState);
   const [coordinate, setCoordinate] = useState({} as Coordinate);
   const [selectedMarker, setSelectedMarker] = useState({} as Marker);
+  const [value, setValue] = React.useState<string>("branch");
 
   useEffect(() => {
     api.reference.getCityBranch().then((m) => {
@@ -69,7 +91,7 @@ const Step6 = () => {
     setShowErrorMsg: (message: string) => void,
     setLoading: (loading: boolean) => void
   ) => {
-    if (!!selectedMarker.depCode) {
+    if (!!selectedMarker.depCode || value === "courier") {
       ReactGA.event({
         category: "Socialcard_continue_5",
         action: "continue_5",
@@ -133,6 +155,21 @@ const Step6 = () => {
     }
   };
 
+  const handleChange = (
+    e: any,
+    model: BaseModel,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    setValue(e.target.value);
+    changeModel(
+      (g) => g.isDelivery,
+      (s) => (e.target.value === "courier" ? true : false)
+    );
+  };
+
   return (
     <AppContext.Consumer>
       {({
@@ -143,42 +180,84 @@ const Step6 = () => {
         setShowErrorMsg,
         setLoading,
       }) => (
-        <Grid container spacing={2} className={classes.root}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <TextField
-              variant="filled"
-              fullWidth={true}
-              label="Тип документа"
-              select
-              SelectProps={{
-                native: true,
-              }}
-              value={coordinate.code || ""}
-              onChange={(e: any) => onSelectRegion(e.target.value)}
-              required
-            >
-              {coordinates?.map((m) => (
-                <option value={m.code}>{m.value}</option>
-              ))}
-            </TextField>
+        <Grid container className={classes.root}>
+          <Grid item xs={12} className={classes.form}>
+            <BccFormControl>
+              <BccRadioGroup
+                value={value}
+                onChange={(e: any) => handleChange(e, model, changeModel)}
+              >
+                <BccFormControlLabel
+                  value="branch"
+                  control={<BccRadio />}
+                  label="Отделение"
+                  labelPlacement="end"
+                />
+                <BccFormControlLabel
+                  value="courier"
+                  control={<BccRadio />}
+                  label="Курьером"
+                  labelPlacement="end"
+                />
+              </BccRadioGroup>
+            </BccFormControl>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <YMaps className={classes.root}>
-              <Map className={classes.root} state={mapCenter}>
-                {coordinate.markers?.map((marker) => (
-                  <Placemark
-                    geometry={[marker.lat || 0, marker.lng || 0]}
-                    onClick={() => onSelectMarker(marker, changeModel)}
-                    options={
-                      marker.name == selectedMarker.name
-                        ? { iconColor: "red" }
-                        : { iconColor: "#1E98FF" }
-                    }
-                  />
-                ))}
-              </Map>
-            </YMaps>
-          </Grid>
+          {console.log(model, "last")}
+          {value === "branch" ? (
+            <>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <TextField
+                  variant="filled"
+                  fullWidth={true}
+                  label="Город"
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
+                  value={coordinate.code || ""}
+                  onChange={(e: any) => onSelectRegion(e.target.value)}
+                  required
+                >
+                  {coordinates?.map((m) => (
+                    <option value={m.code}>{m.value}</option>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <YMaps className={classes.map}>
+                  <Map className={classes.map} state={mapCenter}>
+                    {coordinate.markers?.map((marker) => (
+                      <Placemark
+                        geometry={[marker.lat || 0, marker.lng || 0]}
+                        onClick={() => onSelectMarker(marker, changeModel)}
+                        options={
+                          marker.name == selectedMarker.name
+                            ? { iconColor: "red" }
+                            : { iconColor: "#1E98FF" }
+                        }
+                      />
+                    ))}
+                  </Map>
+                </YMaps>
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                label="Адрес доставки"
+                variant="filled"
+                fullWidth={true}
+                value={model.fullAddressString}
+                onChange={(e: any) =>
+                  changeModel(
+                    (g) => g.fullAddressString,
+                    (s) => e.target.value
+                  )
+                }
+                required
+              />
+            </Grid>
+          )}
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
               style={{ marginBottom: 24 }}

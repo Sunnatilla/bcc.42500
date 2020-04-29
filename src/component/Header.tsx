@@ -35,7 +35,9 @@ const Header = (props: { showCard: boolean }) => {
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-        <img src="logo-bcc.svg" alt="logo" />
+        <a href="https://www.bcc.kz">
+          <img src="logo-bcc.svg" alt="logo" />
+        </a>
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Typography className={classes.title}>Заявка на карту</Typography>

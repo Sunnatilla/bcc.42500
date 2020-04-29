@@ -30,6 +30,7 @@ export class KatoModel {
   k?: string;
   kaz_name?: string;
   rus_name?: string;
+  rus_name_prefix?: string;
 }
 
 export class KatoController {

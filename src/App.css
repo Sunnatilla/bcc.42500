@@ -2,4 +2,21 @@
   max-width: 576px;
   margin: 30px auto 30px;
   padding: 0 25px;
+  box-sizing: border-box;
+}
+
+.back {
+  color: #4d565f;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.back:hover {
+  color: #27ae60;
+}
+
+.back > svg {
+  margin-right: 10px;
 }
