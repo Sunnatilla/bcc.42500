@@ -36,7 +36,7 @@ const Alert = (props: any) => {
 };
 
 function App() {
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(0);
   const [sended, setSended] = useState<boolean>(false);
   const [model, setModel] = useState({
     colvirId: undefined,
