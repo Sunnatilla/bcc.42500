@@ -18,6 +18,7 @@ import { Alert as MuiAlert } from "@material-ui/lab";
 import BlockUi from "react-block-ui";
 import "react-block-ui/style.css";
 import { YMInitializer } from "react-yandex-metrika";
+import { KeyboardBackspace } from "@material-ui/icons";
 
 export const AppContext = React.createContext({
   model: {} as BaseModel,
@@ -26,6 +27,8 @@ export const AppContext = React.createContext({
   setOpenError: (open: boolean) => {},
   setShowErrorMsg: (message: string) => {},
   setLoading: (loading: boolean) => {},
+  sended: false,
+  setSended: (sended: boolean) => {},
 });
 
 const Alert = (props: any) => {
@@ -33,7 +36,8 @@ const Alert = (props: any) => {
 };
 
 function App() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(5);
+  const [sended, setSended] = useState<boolean>(false);
   const [model, setModel] = useState({
     colvirId: undefined,
     code: "",
@@ -42,6 +46,25 @@ function App() {
     fullName: "",
     shortName: "",
     firstName: "",
+    isDelivery: false,
+    fullNameLat: "",
+    fullAddressString: "",
+    fullAddress: {
+      oblPrefix: "",
+      obl: "",
+      areaPrefix: "",
+      area: "",
+      cityPrefix: "",
+      city: "",
+      villagePrefix: "",
+      village: "",
+      streetPrefix: "ул.",
+      street: "",
+      housePrefix: "дом",
+      house: "",
+      flatPrefix: "кв.",
+      flat: "",
+    },
     lastName: "",
     middleName: "",
     birthDate: undefined,
@@ -77,9 +100,9 @@ function App() {
         region: {},
         district: { name: "" },
         city: { name: "" },
-        cityPart: { name: "" },
+        village: { name: "" },
         street: { name: "" },
-        houseNumber: { code: "" },
+        houseNumber: { name: "" },
         flat: { name: "" },
         cityZone: { name: "" },
         zip: "",
@@ -166,10 +189,17 @@ function App() {
             setOpenError,
             setShowErrorMsg,
             setLoading,
+            sended,
+            setSended,
           }}
         >
           <div>
             <Header showCard={step !== 6} />
+            {step > 0 && step !== 6 && (
+              <div onClick={() => setStep(step - 1)} className="back">
+                <KeyboardBackspace /> Назад
+              </div>
+            )}
             {step === 0 && (
               <Stepper title="Шаг 1: Заполнение данных" percent={0} step={1}>
                 <Step1 />

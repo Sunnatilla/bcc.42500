@@ -3,7 +3,7 @@ import { Grid, MenuItem } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button } from ".";
-import { BaseModel, Address } from "../api/model/BaseModel";
+import { BaseModel, Address, FullAddress } from "../api/model/BaseModel";
 import { api } from "../api/ApiRest";
 import { KatoModel } from "../api/KatoController";
 import { CodeName } from "../api/ReferenceController";
@@ -14,8 +14,76 @@ const useStyles = makeStyles((theme: Theme) => createStyles({}));
 const Step5 = () => {
   const classes = useStyles();
 
-  const onSubmit = (e: any, setStep: (step: number) => void) => {
+  const onSubmit = (
+    e: any,
+    setStep: (step: number) => void,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void,
+    model: BaseModel
+  ) => {
     e.preventDefault();
+    let fullAddr = model.fullAddress?.oblPrefix
+      ? model.fullAddress?.oblPrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.obl
+      ? model.fullAddress?.obl[0].toUpperCase() +
+        model.fullAddress?.obl.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.areaPrefix
+      ? model.fullAddress?.areaPrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.area
+      ? model.fullAddress?.area[0].toUpperCase() +
+        model.fullAddress?.area.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.cityPrefix
+      ? model.fullAddress?.cityPrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.city
+      ? model.fullAddress?.city[0].toUpperCase() +
+        model.fullAddress?.city.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.villagePrefix
+      ? model.fullAddress?.villagePrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.village
+      ? model.fullAddress?.village[0].toUpperCase() +
+        model.fullAddress?.village.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.streetPrefix
+      ? model.fullAddress?.streetPrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.street
+      ? model.fullAddress?.street[0].toUpperCase() +
+        model.fullAddress?.street.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.housePrefix
+      ? model.fullAddress?.housePrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.house
+      ? model.fullAddress?.house[0].toUpperCase() +
+        model.fullAddress?.house.toLowerCase().substring(1) +
+        " "
+      : "";
+    fullAddr += model.fullAddress?.flatPrefix
+      ? model.fullAddress?.flatPrefix.toLowerCase() + " "
+      : "";
+    fullAddr += model.fullAddress?.flat
+      ? model.fullAddress?.flat[0].toUpperCase() +
+        model.fullAddress?.flat.toLowerCase().substring(1) +
+        " "
+      : "";
+    changeModel(
+      (g) => g.fullAddressString,
+      (s) => fullAddr
+    );
     setStep(5);
   };
 
@@ -50,6 +118,18 @@ const Step5 = () => {
       }
     );
 
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          oblPrefix: r?.rus_name_prefix,
+          obl: r?.rus_name,
+        };
+        return s;
+      }
+    );
+
     api.kato
       .getKatoChildren(e.target.value)
       .then((m) => {
@@ -76,7 +156,18 @@ const Step5 = () => {
           ...s[0],
           district: { code: r?.te, name: r?.rus_name },
           city: { code: "", name: "" },
-          cityPart: { code: "", name: "" },
+        };
+        return s;
+      }
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          areaPrefix: r?.rus_name_prefix,
+          area: r?.rus_name,
         };
         return s;
       }
@@ -88,10 +179,148 @@ const Step5 = () => {
     });
   };
 
+  const changeCity = (
+    e: any,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    const c = cities?.find((m) => m.te === e.target.value);
+
+    changeModel(
+      (g) => g.addresses,
+      (s: Address[]) => {
+        s[0] = {
+          ...s[0],
+          city: { code: c?.te, name: c?.rus_name },
+        };
+        return s;
+      }
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          cityPrefix: c?.rus_name_prefix,
+          city: c?.rus_name,
+        };
+        return s;
+      }
+    );
+  };
+
+  const changeVillage = (
+    e: any,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    const c = cityParts?.find((m) => m.te === e.target.value);
+
+    changeModel(
+      (g) => g.addresses,
+      (s: Address[]) => {
+        s[0] = {
+          ...s[0],
+          village: { code: c?.te, name: c?.rus_name },
+        };
+        return s;
+      }
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          villagePrefix: c?.rus_name_prefix,
+          village: c?.rus_name,
+        };
+        return s;
+      }
+    );
+  };
+
+  const changeStreet = (
+    e: any,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    changeModel(
+      (g) => g.addresses?.[0].street?.code,
+      (s) => e.target.value
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          street: e.target.value,
+        };
+        return s;
+      }
+    );
+  };
+
+  const changeHouse = (
+    e: any,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    changeModel(
+      (g) => g.addresses?.[0].houseNumber?.code,
+      (s) => e.target.value
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          house: e.target.value,
+        };
+        return s;
+      }
+    );
+  };
+
+  const changeFlat = (
+    e: any,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    changeModel(
+      (g) => g.addresses?.[0].flat?.code,
+      (s) => e.target.value
+    );
+
+    changeModel(
+      (g) => g.fullAddress,
+      (s: FullAddress) => {
+        s = {
+          ...s,
+          flat: e.target.value,
+        };
+        return s;
+      }
+    );
+  };
+
   return (
     <AppContext.Consumer>
       {({ model, changeModel, setStep }) => (
-        <form onSubmit={(e: any) => onSubmit(e, setStep)}>
+        <form onSubmit={(e: any) => onSubmit(e, setStep, changeModel, model)}>
           <Grid container>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
@@ -142,27 +371,15 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.addresses?.[0].city?.name}
-                onChange={(e: any) =>
-                  changeModel(
-                    (g) => g.addresses,
-                    (s: Address[]) => {
-                      s[0] = {
-                        ...s[0],
-                        city: { code: e.target.value, name: e.target.value },
-                        village: { code: e.target.value, name: e.target.value },
-                      };
-                      return s;
-                    }
-                  )
-                }
+                value={model.addresses?.[0].city?.code}
+                onChange={(e: any) => changeCity(e, changeModel)}
                 required={
-                  cities.length > 0 && !model.addresses?.[0].cityPart?.name
+                  cities.length > 0 && !model.addresses?.[0].village?.name
                 }
               >
                 <option></option>
                 {cities?.map((m) => (
-                  <option value={m.rus_name}>{m.rus_name}</option>
+                  <option value={m.te}>{m.rus_name}</option>
                 ))}
               </TextField>
             </Grid>
@@ -175,30 +392,15 @@ const Step5 = () => {
                 SelectProps={{
                   native: true,
                 }}
-                value={model.addresses?.[0].cityPart?.name}
-                onChange={(e: any) =>
-                  changeModel(
-                    (g) => g.addresses,
-                    (s: Address[]) => {
-                      s[0] = {
-                        ...s[0],
-                        cityPart: {
-                          code: e.target.value,
-                          name: e.target.value,
-                        },
-                        village: { code: e.target.value, name: e.target.value },
-                      };
-                      return s;
-                    }
-                  )
-                }
+                value={model.addresses?.[0].village?.code}
+                onChange={(e: any) => changeVillage(e, changeModel)}
                 required={
                   cityParts.length > 0 && !model.addresses?.[0].city?.name
                 }
               >
                 <option></option>
                 {cityParts?.map((m) => (
-                  <option value={m.rus_name}>{m.rus_name}</option>
+                  <option value={m.te}>{m.rus_name}</option>
                 ))}
               </TextField>
             </Grid>
@@ -209,13 +411,8 @@ const Step5 = () => {
                     label="Улица"
                     variant="filled"
                     fullWidth={true}
-                    value={model.addresses?.[0].street?.name?.toUpperCase()}
-                    onChange={(e: any) =>
-                      changeModel(
-                        (g) => g.addresses?.[0].street?.name,
-                        (s) => e.target.value.toUpperCase()
-                      )
-                    }
+                    value={model.addresses?.[0].street?.code}
+                    onChange={(e: any) => changeStreet(e, changeModel)}
                     required
                   />
                 </Grid>
@@ -224,13 +421,8 @@ const Step5 = () => {
                     label="Дом"
                     variant="filled"
                     fullWidth={true}
-                    value={model.addresses?.[0].houseNumber?.name?.toUpperCase()}
-                    onChange={(e: any) =>
-                      changeModel(
-                        (g) => g.addresses?.[0].houseNumber?.name,
-                        (s) => e.target.value.toUpperCase()
-                      )
-                    }
+                    value={model.addresses?.[0].houseNumber?.code}
+                    onChange={(e: any) => changeHouse(e, changeModel)}
                     required
                   />
                 </Grid>
@@ -239,20 +431,15 @@ const Step5 = () => {
                     label="Квартира"
                     variant="filled"
                     fullWidth={true}
-                    value={model.addresses?.[0].flat?.name?.toUpperCase() || ""}
-                    onChange={(e: any) =>
-                      changeModel(
-                        (g) => g.addresses?.[0].flat?.name,
-                        (s) => e.target.value.toUpperCase()
-                      )
-                    }
+                    value={model.addresses?.[0].flat?.code}
+                    onChange={(e: any) => changeFlat(e, changeModel)}
                   />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Button style={{ marginTop: 24 }} fullWidth={true} type="submit">
-                Подтвердить
+                Продолжить
               </Button>
             </Grid>
           </Grid>

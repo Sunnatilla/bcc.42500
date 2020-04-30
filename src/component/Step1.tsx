@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
     checkbox: {
       fontSize: 16,
       color: "#000000",
+      "& > a": {
+        color: "#27AE60",
+      },
     },
     protectionContinueBlock: {
       marginTop: 45,
@@ -35,14 +38,16 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Step1 = () => {
   const classes = useStyles();
 
-  const [agreement, setAgreement] = useState(false);
+  const [agreement, setAgreement] = useState(true);
 
   const onSubmit = (
     e: any,
     model: BaseModel,
     setStep: (step: number) => void,
     setOpenError: (open: boolean) => void,
-    setLoading: (loading: boolean) => void
+    setLoading: (loading: boolean) => void,
+    sended: boolean,
+    setSended: (sended: boolean) => void
   ) => {
     e.preventDefault();
     ReactGA.event({
@@ -50,28 +55,51 @@ export const Step1 = () => {
       action: "continue_1",
     });
     setLoading(true);
-    api.authOtp
-      .sendOtp({
-        iin: model.taxIdentificationNumber?.code,
-        phone: model.contactData?.[0].phoneNumber,
-      })
-      .then(() => {
-        localStorage.removeItem("userContext");
-        setLoading(false);
-        setStep(1);
-      })
-      .catch((e: any) => {
-        setLoading(false);
-        setOpenError(true);
-      });
+    if (sended) {
+      localStorage.removeItem("userContext");
+      setLoading(false);
+      setStep(1);
+    } else {
+      api.authOtp
+        .sendOtp({
+          iin: model.taxIdentificationNumber?.code,
+          phone: model.contactData?.[0].phoneNumber,
+        })
+        .then(() => {
+          setSended(true);
+          localStorage.removeItem("userContext");
+          setLoading(false);
+          setStep(1);
+        })
+        .catch((e: any) => {
+          setLoading(false);
+          setOpenError(true);
+        });
+    }
   };
 
   return (
     <AppContext.Consumer>
-      {({ model, setStep, changeModel, setOpenError, setLoading }) => (
+      {({
+        model,
+        setStep,
+        changeModel,
+        setOpenError,
+        setLoading,
+        sended,
+        setSended,
+      }) => (
         <form
           onSubmit={(e: any) =>
-            onSubmit(e, model, setStep, setOpenError, setLoading)
+            onSubmit(
+              e,
+              model,
+              setStep,
+              setOpenError,
+              setLoading,
+              sended,
+              setSended
+            )
           }
         >
           <Grid container>
@@ -123,16 +151,14 @@ export const Step1 = () => {
               <FormControlLabel
                 className={classes.checkBoxBlock}
                 control={
-                  <Checkbox
-                    value={agreement}
-                    onChange={() => setAgreement(!agreement)}
-                    color="primary"
-                    required
-                  />
+                  <Checkbox checked={agreement} color="primary" required />
                 }
                 label={
                   <Typography className={classes.checkbox}>
-                    Я согласен(а) на сбор и обработку персональных данных
+                    Я согласен(а) на сбор и обработку{" "}
+                    <a href="agreement.pdf" target="_blank">
+                      персональных данных
+                    </a>
                   </Typography>
                 }
               />

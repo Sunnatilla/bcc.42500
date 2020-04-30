@@ -64,6 +64,7 @@ const Step4 = () => {
                 <TextField
                   label="Номер документа"
                   variant="filled"
+                  maxLength={9}
                   fullWidth={true}
                   isNumeric={true}
                   value={model.identDocument?.[0].number}
@@ -143,7 +144,7 @@ const Step4 = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Button style={{ marginTop: 24 }} fullWidth={true} type="submit">
-                Подтвердить
+                Продолжить
               </Button>
             </Grid>
           </Grid>

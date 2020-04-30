@@ -6,10 +6,31 @@ export interface BaseModel {
   firstName?: string;
   lastName?: string;
   middleName?: string;
+  fullNameLat?: string;
+  isDelivery?: boolean;
   birthDate?: string;
   identDocument?: Identity[];
   addresses?: Address[];
   department?: CodeName;
+  fullAddressString?: string;
+  fullAddress?: FullAddress;
+}
+
+export interface FullAddress {
+  oblPrefix?: string;
+  obl?: string;
+  areaPrefix?: string;
+  area?: string;
+  cityPrefix?: string;
+  city?: string;
+  villagePrefix?: string;
+  village?: string;
+  streetPrefix?: string;
+  street?: string;
+  housePrefix?: string;
+  house?: string;
+  flatPrefix?: string;
+  flat?: string;
 }
 
 export class ContactData {
@@ -43,7 +64,6 @@ export interface Address {
   region?: CodeName;
   district?: CodeName;
   city?: CodeName;
-  cityPart?: CodeName;
   street?: CodeName;
   houseNumber?: CodeName;
   flat?: CodeName;

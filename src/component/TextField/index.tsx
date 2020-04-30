@@ -20,10 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       "&$focused": {
         backgroundColor: "#fff",
-        border: "2px solid #1F7042",
+        border: "2px solid #27AE60",
       },
       "& label.Mui-focused": {
-        color: "green",
+        color: "#27AE60",
       },
     },
     focused: {},
@@ -97,7 +97,7 @@ const BccInputText = (
   return (
     <TextField
       {...others}
-      style={{ height: "56px", marginTop: 24, ...style }}
+      style={{ marginTop: 24, ...style }}
       inputProps={{
         ...inputProps,
         maxLength,
