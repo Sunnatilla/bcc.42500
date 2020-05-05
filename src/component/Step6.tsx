@@ -142,6 +142,11 @@ const Step6 = () => {
             setShowErrorMsg(
               "Введеный номер телефона принадлежит другому клиенту"
             );
+          } else if (
+            !!model.checkResult &&
+            model.checkResult.product.state == 1
+          ) {
+            setShowErrorMsg("Клиент уже подписан на продукт или его аналог");
           } else {
             setStep(6);
           }
