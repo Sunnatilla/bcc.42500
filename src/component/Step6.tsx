@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     map: {
       width: "100%",
-      height: 250,
+      height: 300,
     },
     form: {
       marginBottom: "0!important",
