@@ -8,6 +8,7 @@ export interface CodeName {
   value?: string;
   description?: string;
   key?: string;
+  prefix?: string;
 }
 
 export interface Coordinate {

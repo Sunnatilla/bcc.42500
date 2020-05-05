@@ -202,7 +202,6 @@ const Step6 = () => {
               </BccRadioGroup>
             </BccFormControl>
           </Grid>
-          {console.log(model, "last")}
           {value === "branch" ? (
             <>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -247,10 +246,10 @@ const Step6 = () => {
                 label="Адрес доставки"
                 variant="filled"
                 fullWidth={true}
-                value={model.fullAddressString}
+                value={model.addresses?.[0].deliveryAddress}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.fullAddressString,
+                    (g) => g.addresses?.[0].deliveryAddress,
                     (s) => e.target.value
                   )
                 }

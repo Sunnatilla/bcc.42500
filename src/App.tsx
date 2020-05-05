@@ -36,7 +36,7 @@ const Alert = (props: any) => {
 };
 
 function App() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(4);
   const [sended, setSended] = useState<boolean>(false);
   const [model, setModel] = useState({
     colvirId: undefined,
@@ -49,22 +49,6 @@ function App() {
     isDelivery: false,
     fullNameLat: "",
     fullAddressString: "",
-    fullAddress: {
-      oblPrefix: "",
-      obl: "",
-      areaPrefix: "",
-      area: "",
-      cityPrefix: "",
-      city: "",
-      villagePrefix: "",
-      village: "",
-      streetPrefix: "ул.",
-      street: "",
-      housePrefix: "дом",
-      house: "",
-      flatPrefix: "кв.",
-      flat: "",
-    },
     lastName: "",
     middleName: "",
     birthDate: undefined,
