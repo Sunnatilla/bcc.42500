@@ -5,4 +5,11 @@ window.env = {
   COLVIR_REST_URL: "${COLVIR_REST_URL}",
   APP_ID: "${APP_ID}",
   SERVICEBUS_XJSON_URL: "${SERVICEBUS_XJSON_URL}",
+  SERVICE_BUS: {
+    URL: "${SERVICE_BUS_URL}",
+    APP_ID: "${SERVICE_BUS_APP_ID}",
+  },
+  PRODUCT: {
+    SOCIAL: "${SOCIAL_CARD_CODE}",
+  },
 };
