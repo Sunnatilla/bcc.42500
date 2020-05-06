@@ -84,6 +84,7 @@ const Step5 = () => {
           },
           district: { code: "", name: "" },
           zip: r?.index,
+          okato: r?.te,
         };
         return s;
       }
@@ -120,6 +121,7 @@ const Step5 = () => {
           },
           city: { code: "", name: "" },
           cityPart: { code: "", name: "" },
+          okato: r?.te,
         };
         return s;
       }
@@ -193,10 +195,12 @@ const Step5 = () => {
                   changeModel(
                     (g) => g.addresses,
                     (s: Address[]) => {
+                      const r = cities?.find((m) => m.te === e.target.value);
                       s[0] = {
                         ...s[0],
                         city: { code: e.target.value, name: e.target.value },
                         village: { code: e.target.value, name: e.target.value },
+                        okato: r?.te,
                       };
                       return s;
                     }
@@ -227,6 +231,7 @@ const Step5 = () => {
                   changeModel(
                     (g) => g.addresses,
                     (s: Address[]) => {
+                      const r = cityParts?.find((m) => m.te === e.target.value);
                       s[0] = {
                         ...s[0],
                         cityPart: {
@@ -234,6 +239,7 @@ const Step5 = () => {
                           name: e.target.value,
                         },
                         village: { code: e.target.value, name: e.target.value },
+                        okato: r?.te,
                       };
                       return s;
                     }
