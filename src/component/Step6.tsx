@@ -112,9 +112,7 @@ const Step6 = () => {
             model.clientExist.data.length == 0 &&
             model.phoneExist.data.length == 0
           ) {
-            if (model.isLongNameFLCorrect == false) {
-              setShowErrorMsg("Введены неправильные данные ФИО");
-            } else if (model.createClientResult.data.p_errfl != null) {
+            if (model.createClientResult.data.p_id == null) {
               setOpenError(true);
             } else if (model.controlCardError == true) {
               setOpenError(true);
@@ -123,18 +121,18 @@ const Step6 = () => {
             }
           } else if (
             model.clientExist.data.length > 0 &&
-            model.phoneExist.data.length > 0 &&
-            model.client.taxIdentificationNumber.code !=
+            model.phoneExist.data.length > 0
+          ) {
+            if (
+              model.client.taxIdentificationNumber.code !=
               model.phoneExist.data[0].iin
-          ) {
-            setShowErrorMsg(
-              "Введеный номер телефона принадлежит другому клиенту"
-            );
-          } else if (
-            !!model.checkResult &&
-            model.checkResult.product.state == 1
-          ) {
-            setShowErrorMsg("Клиент уже подписан на продукт или его аналог");
+            ) {
+              setShowErrorMsg(
+                "Введеный номер телефона принадлежит другому клиенту"
+              );
+            } else if (model.checkResult?.product?.state == 1) {
+              setShowErrorMsg("Клиент уже подписан на продукт или его аналог");
+            }
           } else {
             setStep(6);
           }
@@ -144,7 +142,7 @@ const Step6 = () => {
           setOpenError(true);
         });
     } else {
-      setOpenError(true);
+      setShowErrorMsg("Выберите отделение на карте");
     }
   };
 
