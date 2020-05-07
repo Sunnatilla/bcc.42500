@@ -132,6 +132,8 @@ const Step6 = () => {
               );
             } else if (model.checkResult?.product?.state == 1) {
               setShowErrorMsg("Клиент уже подписан на продукт или его аналог");
+            } else {
+              setStep(6);
             }
           } else {
             setStep(6);

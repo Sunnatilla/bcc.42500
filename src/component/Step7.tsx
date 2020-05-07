@@ -6,9 +6,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tickBlock: {
       marginTop: 40,
-      height: 250,
       backgroundColor: "rgba(125, 206, 160, 0.1)",
-      padding: 12,
+      padding: 20,
     },
     txtSend: {
       fontSize: 18,
