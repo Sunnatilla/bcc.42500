@@ -116,6 +116,8 @@ const Step6 = () => {
               setOpenError(true);
             } else if (model.controlCardError == true) {
               setOpenError(true);
+            } else if (model.openClientCardResult.data.p_errmsg != "null") {
+              setOpenError(true);
             } else {
               setStep(6);
             }
