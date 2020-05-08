@@ -112,7 +112,7 @@ const Step6 = () => {
             model.clientExist.data.length == 0 &&
             model.phoneExist.data.length == 0
           ) {
-            if (model.createClientResult.data.p_id == null) {
+            if (model.createClientResult.data.p_id == "null") {
               setOpenError(true);
             } else if (model.controlCardError == true) {
               setOpenError(true);
