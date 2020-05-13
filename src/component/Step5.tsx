@@ -24,30 +24,39 @@ const Step5 = () => {
   ) => {
     e.preventDefault();
     changeModel(
-      (s) => s?.addresses?.[0],
-      (p: Address) => {
-        p.fullAddress = [
-          p?.zip,
-          p?.country,
-          !!p?.region?.name ? `${p?.region?.name} ${p?.region?.prefix}` : null,
-          !!p?.district?.name
-            ? `${p?.district?.name} ${p?.district?.prefix}`
-            : null,
-          !!p?.village?.name
-            ? `${p?.village?.prefix || ""} ${p?.village?.name}`
-            : null,
-          !!p?.cityZone?.name ? `${p?.cityZone?.name} мкр` : null,
-          !!p?.street?.name
-            ? p?.street?.name +
-              ` ` +
-              (!!p?.streetType?.code ? p?.streetType?.code : `ул`)
-            : null,
-          !!p?.houseNumber?.code ? `дом ${p?.houseNumber?.code}` : null,
-          !!p?.flat?.name ? `к-ра ${p?.flat?.name}` : null,
-        ]
-          .filter(Boolean)
-          .join(", ");
-        p.deliveryAddress = p.fullAddress;
+      (s) => s?.addresses,
+      (p: Address[]) => {
+        p[0] = {
+          ...p[0],
+          fullAddress: [
+            p[0]?.zip,
+            p[0]?.country,
+            !!p[0]?.region?.name
+              ? `${p[0]?.region?.name} ${p[0]?.region?.prefix}`
+              : null,
+            !!p[0]?.district?.name
+              ? `${p[0]?.district?.name} ${p[0]?.district?.prefix}`
+              : null,
+            !!p[0]?.village?.name
+              ? `${p[0]?.village?.prefix || ""} ${p[0]?.village?.name}`
+              : null,
+            !!p[0]?.cityZone?.name ? `${p[0]?.cityZone?.name} мкр` : null,
+            !!p[0]?.street?.name
+              ? p[0]?.street?.name +
+                ` ` +
+                (!!p[0]?.streetType?.code ? p[0]?.streetType?.code : `ул`)
+              : null,
+            !!p[0]?.houseNumber?.code ? `дом ${p[0]?.houseNumber?.code}` : null,
+            !!p[0]?.flat?.name ? `к-ра ${p[0]?.flat?.name}` : null,
+          ]
+            .filter(Boolean)
+            .join(", "),
+        };
+        p[0] = {
+          ...p[0],
+          deliveryAddress: p[0]?.fullAddress,
+        };
+        p[1] = { ...p[0] };
         return p;
       }
     );
