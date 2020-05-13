@@ -56,7 +56,7 @@ const Step5 = () => {
           ...p[0],
           deliveryAddress: p[0]?.fullAddress,
         };
-        p[1] = { ...p[0], type: "006" };
+        p[1] = { ...p[0], type: { code: "006" } };
         return p;
       }
     );
