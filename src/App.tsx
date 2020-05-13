@@ -36,7 +36,7 @@ const Alert = (props: any) => {
 };
 
 function App() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(5);
   const [sended, setSended] = useState<boolean>(false);
   const [model, setModel] = useState({
     colvirId: undefined,
@@ -223,7 +223,7 @@ function App() {
             )}
             {step === 5 && (
               <Stepper
-                title="Шаг 6: Выберите адрес отделение и доставки"
+                title="Шаг 6: Выберите отделение банка"
                 percent={84}
                 step={5}
               >

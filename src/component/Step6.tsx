@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Typography, FormControlLabel } from "@material-ui/core";
+import { Grid, FormControlLabel, Button as MButton } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { YMaps, Map, Placemark, MapState } from "react-yandex-maps";
 import { TextField, Button } from ".";
@@ -25,8 +25,25 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#4D565F",
       marginTop: 15,
     },
+    tab: {
+      height: 40,
+      background: "#E8E8E8",
+      color: "black",
+      textTransform: "none",
+    },
+    tabActive: {
+      height: 40,
+      background: "#FFCF87",
+      color: "black",
+      textTransform: "none",
+    },
   })
 );
+
+enum MapList {
+  MAP,
+  LIST,
+}
 
 const Step6 = () => {
   const classes = useStyles();
@@ -34,7 +51,7 @@ const Step6 = () => {
   const [coordinates, setCoordinates] = useState([] as Coordinate[]);
   const [mapCenter, setMapCenter] = useState({} as MapState);
   const [coordinate, setCoordinate] = useState({} as Coordinate);
-  const [selectedMarker, setSelectedMarker] = useState({} as Marker);
+  const [tab, setTab] = useState(MapList.MAP);
 
   useEffect(() => {
     api.reference.getCityBranch().then((m) => {
@@ -65,10 +82,22 @@ const Step6 = () => {
       setProp: (s: any) => any
     ) => void
   ) => {
-    setSelectedMarker(marker);
     changeModel(
       (g) => g.department?.code,
       (s) => marker.depCode
+    );
+  };
+
+  const onSelectList = (
+    value: string,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
+  ) => {
+    changeModel(
+      (g) => g.department?.code,
+      (s) => value
     );
   };
 
@@ -79,7 +108,7 @@ const Step6 = () => {
     setShowErrorMsg: (message: string) => void,
     setLoading: (loading: boolean) => void
   ) => {
-    if (!!selectedMarker.depCode) {
+    if (!!model.department?.code) {
       ReactGA.event({
         category: "Socialcard_continue_5",
         action: "continue_5",
@@ -182,22 +211,71 @@ const Step6 = () => {
             </TextField>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <YMaps className={classes.map}>
-              <Map className={classes.map} state={mapCenter}>
-                {coordinate.markers?.map((marker, i) => (
-                  <Placemark
-                    key={i}
-                    geometry={[marker.lat || 0, marker.lng || 0]}
-                    onClick={() => onSelectMarker(marker, changeModel)}
-                    options={
-                      marker.name == selectedMarker.name
-                        ? { iconColor: "red" }
-                        : { iconColor: "#1E98FF" }
-                    }
-                  />
+            <Grid container spacing={1}>
+              <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                <MButton
+                  className={
+                    tab == MapList.MAP ? classes.tabActive : classes.tab
+                  }
+                  fullWidth
+                  onClick={() => setTab(MapList.MAP)}
+                >
+                  Карта
+                </MButton>
+              </Grid>
+              <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                <MButton
+                  className={
+                    tab == MapList.LIST ? classes.tabActive : classes.tab
+                  }
+                  fullWidth
+                  onClick={() => setTab(MapList.LIST)}
+                >
+                  Список
+                </MButton>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            {tab == MapList.MAP && (
+              <YMaps className={classes.map}>
+                <Map className={classes.map} state={mapCenter}>
+                  {coordinate.markers?.map((marker, i) => (
+                    <Placemark
+                      key={i}
+                      geometry={[marker.lat || 0, marker.lng || 0]}
+                      onClick={() => onSelectMarker(marker, changeModel)}
+                      options={
+                        marker.depCode == model.department?.code
+                          ? { iconColor: "red" }
+                          : { iconColor: "#1E98FF" }
+                      }
+                    />
+                  ))}
+                </Map>
+              </YMaps>
+            )}
+            {tab == MapList.LIST && (
+              <TextField
+                variant="filled"
+                fullWidth={true}
+                label="Выберите отделение"
+                select
+                SelectProps={{
+                  native: true,
+                }}
+                value={model.department?.code || ""}
+                onChange={(e: any) => onSelectList(e.target.value, changeModel)}
+                required
+              >
+                <option></option>
+                {coordinate.markers?.map((m, i) => (
+                  <option key={i} value={m.depCode}>
+                    {`${m.name} - ${m.address}`}
+                  </option>
                 ))}
-              </Map>
-            </YMaps>
+              </TextField>
+            )}
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <FormControlLabel
@@ -212,7 +290,7 @@ const Step6 = () => {
                   }
                 />
               }
-              label="Необходима доставка карты"
+              label="Доставка курьером"
               className={classes.checbox}
             />
             {!!model.isDelivery && (
