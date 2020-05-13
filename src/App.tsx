@@ -54,7 +54,7 @@ function App() {
     birthDate: undefined,
     birthDateString: "",
     birthPlace: { name: "Казахстан", code: "KZ" },
-    roles: "",
+    roles: "CLI=1",
     taxIdentificationNumber: {},
     state: {},
     status: {},
