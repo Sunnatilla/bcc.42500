@@ -4,8 +4,8 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
 import ReactGA from "react-ga";
-import convert from "cyrillic-to-latin";
 import { BaseModel } from "../api/model/BaseModel";
+import СyrillicToTranslit from "cyrillic-to-translit-js";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -22,17 +22,21 @@ const Step3 = () => {
   };
 
   const kazakToLatin = (word: string) => {
-    return convert(
-      word
-        .replace("Қ", "К")
-        .replace("Ұ", "У")
-        .replace("Ү", "У")
-        .replace("Ғ", "Г")
-        .replace("Ң", "Н")
-        .replace("І", "И")
-        .replace("Һ", "Х")
-        .replace("Ә", "А")
-    ).toUpperCase();
+    return new СyrillicToTranslit()
+      .transform(
+        word
+          .replace("Қ", "К")
+          .replace("Ұ", "У")
+          .replace("Ү", "У")
+          .replace("Ғ", "Г")
+          .replace("Ң", "Н")
+          .replace("І", "И")
+          .replace("Һ", "Х")
+          .replace("Ә", "А")
+          .toUpperCase(),
+        " "
+      )
+      .toUpperCase();
   };
 
   return (
