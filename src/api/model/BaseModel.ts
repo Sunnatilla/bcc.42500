@@ -6,6 +6,8 @@ export interface BaseModel {
   firstName?: string;
   lastName?: string;
   middleName?: string;
+  firstNameLat?: string;
+  lastNameLat?: string;
   fullNameLat?: string;
   birthDate?: string;
   identDocument?: Identity[];

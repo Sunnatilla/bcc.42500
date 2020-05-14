@@ -4,6 +4,8 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
 import ReactGA from "react-ga";
+import convert from "cyrillic-to-latin";
+import { BaseModel } from "../api/model/BaseModel";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -19,6 +21,20 @@ const Step3 = () => {
     setStep(3);
   };
 
+  const kazakToLatin = (word: string) => {
+    return convert(
+      word
+        .replace("Қ", "К")
+        .replace("Ұ", "У")
+        .replace("Ү", "У")
+        .replace("Ғ", "Г")
+        .replace("Ң", "Н")
+        .replace("І", "И")
+        .replace("Һ", "Х")
+        .replace("Ә", "А")
+    ).toUpperCase();
+  };
+
   return (
     <AppContext.Consumer>
       {({ model, changeModel, setStep }) => (
@@ -32,8 +48,15 @@ const Step3 = () => {
                 value={model.lastName?.toUpperCase()}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.lastName,
-                    (s) => e.target.value.toUpperCase()
+                    (g) => g,
+                    (s: BaseModel) => {
+                      s = {
+                        ...s,
+                        lastName: e.target.value.toUpperCase(),
+                        lastNameLat: kazakToLatin(e.target.value.toUpperCase()),
+                      };
+                      return s;
+                    }
                   )
                 }
                 required
@@ -52,8 +75,17 @@ const Step3 = () => {
                 value={model.firstName?.toUpperCase()}
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.firstName,
-                    (s) => e.target.value.toUpperCase()
+                    (g) => g,
+                    (s: BaseModel) => {
+                      s = {
+                        ...s,
+                        firstName: e.target.value.toUpperCase(),
+                        firstNameLat: kazakToLatin(
+                          e.target.value.toUpperCase()
+                        ),
+                      };
+                      return s;
+                    }
                   )
                 }
                 required
@@ -88,12 +120,30 @@ const Step3 = () => {
                 variant="filled"
                 fullWidth={true}
                 label="Имя и фамилия на латинице"
-                value={model.fullNameLat?.toUpperCase()}
+                value={`${model.firstNameLat} ${model.lastNameLat}`}
                 helperText="Укажите точно так же, как и у вас в удостоверении личности на обратной стороне"
                 onChange={(e: any) =>
                   changeModel(
-                    (g) => g.fullNameLat,
-                    (s) => e.target.value.toUpperCase()
+                    (g) => g,
+                    (s: BaseModel) => {
+                      let fl = e.target.value
+                        .toUpperCase()
+                        .replace(/\s+/g, " ");
+                      let arr = fl.split(" ");
+                      if (arr.length > 1) {
+                        s = {
+                          ...s,
+                          firstNameLat: arr[0],
+                          lastNameLat: arr[1],
+                        };
+                      } else if (arr.length > 0) {
+                        s = {
+                          ...s,
+                          firstNameLat: arr[0],
+                        };
+                      }
+                      return s;
+                    }
                   )
                 }
                 inputProps={{

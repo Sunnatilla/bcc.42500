@@ -50,6 +50,8 @@ function App() {
     fullNameLat: "",
     fullAddressString: "",
     lastName: "",
+    firstNameLat: "",
+    lastNameLat: "",
     middleName: "",
     birthDate: undefined,
     birthDateString: "",
