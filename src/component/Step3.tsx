@@ -33,6 +33,7 @@ const Step3 = () => {
           .replace("І", "И")
           .replace("Һ", "Х")
           .replace("Ә", "А")
+          .replace("Ө", "О")
           .toUpperCase(),
         " "
       )
