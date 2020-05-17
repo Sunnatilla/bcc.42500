@@ -5,7 +5,7 @@ import { AppContext } from "../App";
 import { TextField, Button, DatePicker } from ".";
 import ReactGA from "react-ga";
 import { BaseModel } from "../api/model/BaseModel";
-import СyrillicToTranslit from "cyrillic-to-translit-js";
+import { kz2lt } from "../utils";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
@@ -19,25 +19,6 @@ const Step3 = () => {
       action: "continue_3",
     });
     setStep(3);
-  };
-
-  const kazakToLatin = (word: string) => {
-    return new СyrillicToTranslit()
-      .transform(
-        word
-          .replace("Қ", "К")
-          .replace("Ұ", "У")
-          .replace("Ү", "У")
-          .replace("Ғ", "Г")
-          .replace("Ң", "Н")
-          .replace("І", "И")
-          .replace("Һ", "Х")
-          .replace("Ә", "А")
-          .replace("Ө", "О")
-          .toUpperCase(),
-        " "
-      )
-      .toUpperCase();
   };
 
   return (
@@ -58,7 +39,7 @@ const Step3 = () => {
                       s = {
                         ...s,
                         lastName: e.target.value.toUpperCase(),
-                        lastNameLat: kazakToLatin(e.target.value.toUpperCase()),
+                        lastNameLat: kz2lt(e.target.value.toUpperCase()),
                       };
                       return s;
                     }
@@ -85,9 +66,7 @@ const Step3 = () => {
                       s = {
                         ...s,
                         firstName: e.target.value.toUpperCase(),
-                        firstNameLat: kazakToLatin(
-                          e.target.value.toUpperCase()
-                        ),
+                        firstNameLat: kz2lt(e.target.value.toUpperCase()),
                       };
                       return s;
                     }
