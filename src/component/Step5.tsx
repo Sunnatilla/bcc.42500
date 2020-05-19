@@ -300,10 +300,10 @@ const Step5 = () => {
                     label="Дом"
                     variant="filled"
                     fullWidth={true}
-                    value={model.addresses?.[0].houseNumber?.name?.toUpperCase()}
+                    value={model.addresses?.[0].houseNumber?.code?.toUpperCase()}
                     onChange={(e: any) =>
                       changeModel(
-                        (g) => g.addresses?.[0].houseNumber?.name,
+                        (g) => g.addresses?.[0].houseNumber?.code,
                         (s) => e.target.value.toUpperCase()
                       )
                     }
