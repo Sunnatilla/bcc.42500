@@ -207,8 +207,8 @@ const Step5 = () => {
                       const r = cities?.find((m) => m.te === e.target.value);
                       s[0] = {
                         ...s[0],
-                        city: { code: e.target.value, name: e.target.value },
-                        village: { code: e.target.value, name: e.target.value },
+                        city: { code: r?.te, name: e.target.value },
+                        village: { code: r?.te, name: e.target.value },
                         okato: r?.te,
                       };
                       return s;
@@ -221,7 +221,7 @@ const Step5 = () => {
               >
                 <option></option>
                 {cities?.map((m) => (
-                  <option value={m.rus_name}>{m.rus_name}</option>
+                  <option value={m.te}>{m.rus_name}</option>
                 ))}
               </TextField>
             </Grid>
@@ -244,10 +244,10 @@ const Step5 = () => {
                       s[0] = {
                         ...s[0],
                         cityPart: {
-                          code: e.target.value,
+                          code: r?.te,
                           name: e.target.value,
                         },
-                        village: { code: e.target.value, name: e.target.value },
+                        village: { code: r?.te, name: e.target.value },
                         okato: r?.te,
                       };
                       return s;
@@ -260,7 +260,7 @@ const Step5 = () => {
               >
                 <option></option>
                 {cityParts?.map((m) => (
-                  <option value={m.rus_name}>{m.rus_name}</option>
+                  <option value={m.te}>{m.rus_name}</option>
                 ))}
               </TextField>
             </Grid>
