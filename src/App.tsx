@@ -108,6 +108,7 @@ function App() {
     deleteContacts: [],
     additionalInfo: [{}],
     hasChanges: false,
+    count: 0,
   } as BaseModel);
   const [openError, setOpenError] = useState(false);
   const [openErrorMsg, setOpenErrorMsg] = useState(false);

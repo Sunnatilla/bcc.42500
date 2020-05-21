@@ -11,5 +11,6 @@ window.env = {
   },
   PRODUCT: {
     SOCIAL: "${SOCIAL_CARD_CODE}",
+    SOCIAL_VIRTUAL: "${SOCIAL_CARD_CODE_VIRTUAL}",
   },
 };

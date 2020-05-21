@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid, FormControlLabel, Button as MButton } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { YMaps, Map, Placemark, MapState } from "react-yandex-maps";
@@ -53,6 +53,8 @@ const Step6 = () => {
   const [coordinate, setCoordinate] = useState({} as Coordinate);
   const [tab, setTab] = useState(MapList.MAP);
 
+  var context = useContext(AppContext);
+
   useEffect(() => {
     api.reference.getCityBranch().then((m) => {
       setCoordinates(m);
@@ -63,6 +65,10 @@ const Step6 = () => {
         zoom: coord?.map.zoom || 0,
       });
     });
+    context.changeModel(
+      (m) => m.count,
+      (p) => 0
+    );
   }, []);
 
   const onSelectRegion = (region: string) => {
@@ -106,7 +112,11 @@ const Step6 = () => {
     setStep: (step: number) => void,
     setOpenError: (open: boolean) => void,
     setShowErrorMsg: (message: string) => void,
-    setLoading: (loading: boolean) => void
+    setLoading: (loading: boolean) => void,
+    changeModel: (
+      getProp: (g: BaseModel) => any,
+      setProp: (s: any) => any
+    ) => void
   ) => {
     if (!!model.department?.code) {
       ReactGA.event({
@@ -136,17 +146,43 @@ const Step6 = () => {
             model.clientExist.data.length > 0 &&
             model.phoneExist.data.length == 0
           ) {
-            setShowErrorMsg("Введеный номер телефона не является доверенным");
+            setShowErrorMsg(
+              "Введеный номер телефона не является доверенным. Просим обратиться в отделение банка."
+            );
           } else if (
             model.clientExist.data.length == 0 &&
             model.phoneExist.data.length == 0
           ) {
             if (model.createClientResult.data.p_id == "null") {
-              setOpenError(true);
+              if (model.count > 3) {
+                setShowErrorMsg("Просим обратиться в отделение банка.");
+              } else {
+                setOpenError(true);
+                changeModel(
+                  (g) => g.count,
+                  (s) => s++
+                );
+              }
             } else if (model.controlCardError == true) {
-              setOpenError(true);
+              if (model.count > 3) {
+                setShowErrorMsg("Просим обратиться в отделение банка.");
+              } else {
+                setOpenError(true);
+                changeModel(
+                  (g) => g.count,
+                  (s) => s++
+                );
+              }
             } else if (model.openClientCardResult.data.p_errmsg != "null") {
-              setOpenError(true);
+              if (model.count > 3) {
+                setShowErrorMsg("Просим обратиться в отделение банка.");
+              } else {
+                setOpenError(true);
+                changeModel(
+                  (g) => g.count,
+                  (s) => s++
+                );
+              }
             } else {
               setStep(6);
             }
@@ -159,10 +195,16 @@ const Step6 = () => {
               model.phoneExist.data[0].iin
             ) {
               setShowErrorMsg(
-                "Введеный номер телефона принадлежит другому клиенту"
+                "Введеный номер телефона принадлежит другому клиенту. Просим обратиться в отделение банка."
               );
             } else if (model.checkResult?.product?.state == 1) {
-              setShowErrorMsg("Клиент уже подписан на продукт или его аналог");
+              setShowErrorMsg(
+                "Уважаемый клиент! У вас уже имеется действующая Социальная карта. Просим обратиться в отделение банка."
+              );
+            } else if (model.checkResult2?.product?.state == 1) {
+              setShowErrorMsg(
+                "Уважаемый клиент! У вас уже имеется действующая Социальная виртуальная карта. Просим обратиться в отделение банка."
+              );
             } else {
               setStep(6);
             }
@@ -172,7 +214,15 @@ const Step6 = () => {
         })
         .catch((e: any) => {
           setLoading(false);
-          setOpenError(true);
+          if (!!model.count && model.count > 3) {
+            setShowErrorMsg("Просим обратиться в отделение банка.");
+          } else {
+            setOpenError(true);
+            changeModel(
+              (g) => g.count,
+              (s) => s++
+            );
+          }
         });
     } else {
       setShowErrorMsg("Выберите отделение на карте");
@@ -319,7 +369,8 @@ const Step6 = () => {
                   setStep,
                   setOpenError,
                   setShowErrorMsg,
-                  setLoading
+                  setLoading,
+                  changeModel
                 )
               }
             >

@@ -14,6 +14,7 @@ export interface BaseModel {
   addresses?: Address[];
   department?: CodeName;
   isDelivery?: boolean;
+  count?: number;
 }
 
 export class ContactData {

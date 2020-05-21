@@ -11,5 +11,6 @@ window.env = {
   },
   PRODUCT: {
     SOCIAL: "0.300.114",
+    SOCIAL_VIRTUAL: "0.300.116.1",
   },
 };
