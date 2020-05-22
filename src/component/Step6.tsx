@@ -51,7 +51,7 @@ const Step6 = () => {
   const [coordinates, setCoordinates] = useState([] as Coordinate[]);
   const [mapCenter, setMapCenter] = useState({} as MapState);
   const [coordinate, setCoordinate] = useState({} as Coordinate);
-  const [tab, setTab] = useState(MapList.MAP);
+  const [tab, setTab] = useState(MapList.LIST);
 
   var context = useContext(AppContext);
 
@@ -270,23 +270,23 @@ const Step6 = () => {
               <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
                 <MButton
                   className={
-                    tab == MapList.MAP ? classes.tabActive : classes.tab
-                  }
-                  fullWidth
-                  onClick={() => setTab(MapList.MAP)}
-                >
-                  Карта
-                </MButton>
-              </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-                <MButton
-                  className={
                     tab == MapList.LIST ? classes.tabActive : classes.tab
                   }
                   fullWidth
                   onClick={() => setTab(MapList.LIST)}
                 >
                   Список
+                </MButton>
+              </Grid>
+              <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                <MButton
+                  className={
+                    tab == MapList.MAP ? classes.tabActive : classes.tab
+                  }
+                  fullWidth
+                  onClick={() => setTab(MapList.MAP)}
+                >
+                  Карта
                 </MButton>
               </Grid>
             </Grid>
