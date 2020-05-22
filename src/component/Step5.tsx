@@ -189,81 +189,91 @@ const Step5 = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <TextField
-                label="Город"
-                variant="filled"
-                fullWidth={true}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-                value={model.addresses?.[0].city?.name}
-                shrink={!!model.addresses?.[0].city?.name}
-                onChange={(e: any) =>
-                  changeModel(
-                    (g) => g.addresses,
-                    (s: Address[]) => {
-                      const r = cities?.find((m) => m.te === e.target.value);
-                      s[0] = {
-                        ...s[0],
-                        city: { code: r?.te, name: e.target.value },
-                        village: { code: r?.te, name: e.target.value },
-                        okato: r?.te,
-                      };
-                      return s;
+            {!["АЛМАТЫ", "НУР-СУЛТАН", "ШЫМКЕНТ"].some(
+              (m) => m == model.addresses?.[0].region?.name
+            ) && (
+              <React.Fragment>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <TextField
+                    label="Город"
+                    variant="filled"
+                    fullWidth={true}
+                    select
+                    SelectProps={{
+                      native: true,
+                    }}
+                    value={model.addresses?.[0].city?.name}
+                    shrink={!!model.addresses?.[0].city?.name}
+                    onChange={(e: any) =>
+                      changeModel(
+                        (g) => g.addresses,
+                        (s: Address[]) => {
+                          const r = cities?.find(
+                            (m) => m.te === e.target.value
+                          );
+                          s[0] = {
+                            ...s[0],
+                            city: { code: r?.te, name: e.target.value },
+                            village: { code: r?.te, name: e.target.value },
+                            okato: r?.te,
+                          };
+                          return s;
+                        }
+                      )
                     }
-                  )
-                }
-                required={
-                  cities.length > 0 && !model.addresses?.[0].cityPart?.name
-                }
-              >
-                <option></option>
-                {cities?.map((m) => (
-                  <option value={m.te}>{m.rus_name}</option>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <TextField
-                label="Село"
-                variant="filled"
-                fullWidth={true}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-                value={model.addresses?.[0].cityPart?.name}
-                shrink={!!model.addresses?.[0].cityPart?.name}
-                onChange={(e: any) =>
-                  changeModel(
-                    (g) => g.addresses,
-                    (s: Address[]) => {
-                      const r = cityParts?.find((m) => m.te === e.target.value);
-                      s[0] = {
-                        ...s[0],
-                        cityPart: {
-                          code: r?.te,
-                          name: e.target.value,
-                        },
-                        village: { code: r?.te, name: e.target.value },
-                        okato: r?.te,
-                      };
-                      return s;
+                    required={
+                      cities.length > 0 && !model.addresses?.[0].cityPart?.name
                     }
-                  )
-                }
-                required={
-                  cityParts.length > 0 && !model.addresses?.[0].city?.name
-                }
-              >
-                <option></option>
-                {cityParts?.map((m) => (
-                  <option value={m.te}>{m.rus_name}</option>
-                ))}
-              </TextField>
-            </Grid>
+                  >
+                    <option></option>
+                    {cities?.map((m) => (
+                      <option value={m.te}>{m.rus_name}</option>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <TextField
+                    label="Село"
+                    variant="filled"
+                    fullWidth={true}
+                    select
+                    SelectProps={{
+                      native: true,
+                    }}
+                    value={model.addresses?.[0].cityPart?.name}
+                    shrink={!!model.addresses?.[0].cityPart?.name}
+                    onChange={(e: any) =>
+                      changeModel(
+                        (g) => g.addresses,
+                        (s: Address[]) => {
+                          const r = cityParts?.find(
+                            (m) => m.te === e.target.value
+                          );
+                          s[0] = {
+                            ...s[0],
+                            cityPart: {
+                              code: r?.te,
+                              name: e.target.value,
+                            },
+                            village: { code: r?.te, name: e.target.value },
+                            okato: r?.te,
+                          };
+                          return s;
+                        }
+                      )
+                    }
+                    required={
+                      cityParts.length > 0 && !model.addresses?.[0].city?.name
+                    }
+                  >
+                    <option></option>
+                    {cityParts?.map((m) => (
+                      <option value={m.te}>{m.rus_name}</option>
+                    ))}
+                  </TextField>
+                </Grid>
+              </React.Fragment>
+            )}
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <TextField
                 label="Микрорайон"
@@ -292,7 +302,7 @@ const Step5 = () => {
                         (s) => e.target.value.toUpperCase()
                       )
                     }
-                    required
+                    required={!model.addresses?.[0].cityZone?.name}
                   />
                 </Grid>
                 <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>

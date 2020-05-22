@@ -220,7 +220,7 @@ function App() {
               </Stepper>
             )}
             {step === 4 && (
-              <Stepper title="Шаг 5: Адреса" percent={67} step={5}>
+              <Stepper title="Шаг 5: Адрес" percent={67} step={5}>
                 <Step5 />
               </Stepper>
             )}
