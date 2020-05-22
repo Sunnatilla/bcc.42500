@@ -150,7 +150,7 @@ function App() {
         onClose={() => setOpenError(false)}
       >
         <Alert onClose={() => setOpenError(false)} severity="error">
-          Возникла непредвиденная ошибка!
+          Возникла непредвиденная ошибка. Попробуйте через 15 мин.
         </Alert>
       </Snackbar>
       <Snackbar
