@@ -61,8 +61,8 @@ const Step6 = () => {
       const coord = m.find((m) => m.code == "1310") || ({} as Coordinate);
       setCoordinate(coord);
       setMapCenter({
-        center: [coord?.map.lat || 0, coord?.map.lng || 0],
-        zoom: coord?.map.zoom || 0,
+        center: [coord?.map?.lat || 0, coord?.map?.lng || 0],
+        zoom: coord?.map?.zoom || 0,
       });
     });
     context.changeModel(
@@ -75,8 +75,8 @@ const Step6 = () => {
     const coord =
       coordinates.find((m) => m.code == region) || ({} as Coordinate);
     setMapCenter({
-      center: [coord?.map.lat || 0, coord?.map.lng || 0],
-      zoom: coord?.map.zoom || 0,
+      center: [coord?.map?.lat || 0, coord?.map?.lng || 0],
+      zoom: coord?.map?.zoom || 0,
     });
     setCoordinate(coord);
   };
