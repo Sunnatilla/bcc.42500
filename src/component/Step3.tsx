@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { AppContext } from "../App";
@@ -6,11 +6,33 @@ import { TextField, Button, DatePicker } from ".";
 import ReactGA from "react-ga";
 import { BaseModel } from "../api/model/BaseModel";
 import { kz2lt } from "../utils";
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
 const Step3 = () => {
   const classes = useStyles();
+
+  var context = useContext(AppContext);
+
+  useEffect(() => {
+    context.changeModel(
+      (g) => g,
+      (s: BaseModel) => {
+        const iin = s.taxIdentificationNumber?.code || "";
+        const year = iin.substr(0, 2);
+        const month = iin.substr(2, 2);
+        const day = iin.substr(4, 2);
+        if (year.substr(0, 1) == "0") {
+          s = { ...s, birthDate: `${month}/${day}/20${year}` };
+        } else {
+          s = { ...s, birthDate: `${month}/${day}/19${year}` };
+        }
+        console.log("sssssss - ", s);
+        return s;
+      }
+    );
+  }, []);
 
   const onSubmit = (e: any, setStep: (step: number) => void) => {
     e.preventDefault();
