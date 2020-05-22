@@ -58,7 +58,12 @@ const Step6 = () => {
   useEffect(() => {
     api.reference.getCityBranch().then((m) => {
       setCoordinates(m);
-      const coord = m.find((m) => m.code == "1389") || ({} as Coordinate);
+      const coord =
+        m.find(
+          (m) =>
+            m.value?.toUpperCase() ==
+            context.model.addresses?.[0].region?.name?.toUpperCase()
+        ) || ({} as Coordinate);
       setCoordinate(coord);
       setMapCenter({
         center: [coord?.map?.lat || 0, coord?.map?.lng || 0],
