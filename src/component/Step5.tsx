@@ -6,8 +6,6 @@ import { TextField, Button } from ".";
 import { BaseModel, Address } from "../api/model/BaseModel";
 import { api } from "../api/ApiRest";
 import { KatoModel } from "../api/KatoController";
-import { CodeName } from "../api/ReferenceController";
-import ReactGA from "react-ga";
 
 const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
