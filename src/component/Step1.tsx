@@ -107,6 +107,32 @@ export const Step1 = () => {
               <TextField
                 variant="filled"
                 fullWidth={true}
+                label="Выберите тип карты"
+                maxLength={12}
+                value={model.cardType}
+                onChange={(e: any) =>
+                  changeModel(
+                    (g) => g.cardType,
+                    (s) => e.target.value
+                  )
+                }
+                required
+                select
+                SelectProps={{
+                  native: true,
+                }}
+              >
+                <option></option>
+                <option value="0.300.114">Социальная карта</option>
+                <option value="0.300.113">Дебетная карта</option>
+                <option value="0.300.112">Пенсионная карта</option>
+                <option value="0.300.024.1">Зарплатная карта</option>
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                variant="filled"
+                fullWidth={true}
                 label="ИИН"
                 maxLength={12}
                 isNumeric={true}

@@ -15,6 +15,7 @@ export interface BaseModel {
   department?: CodeName;
   isDelivery?: boolean;
   count?: number;
+  cardType?: string;
 }
 
 export class ContactData {

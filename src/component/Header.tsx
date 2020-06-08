@@ -52,7 +52,7 @@ const Header = (props: { showCard: boolean }) => {
                 className={classes.card}
               />
             </Grid>
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+            {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
               <Grid container alignItems="center">
                 <Grid item>
                   <Typography className={classes.hashTagSocialCard}>
@@ -63,7 +63,7 @@ const Header = (props: { showCard: boolean }) => {
                   </Typography>
                 </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       )}
