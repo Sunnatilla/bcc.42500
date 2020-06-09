@@ -124,9 +124,8 @@ export const Step1 = () => {
               >
                 <option></option>
                 <option value="0.300.114">Социальная карта</option>
-                <option value="0.300.113">Дебетная карта</option>
-                <option value="0.300.112">Пенсионная карта</option>
-                <option value="0.300.024.1">Зарплатная карта</option>
+                <option value="0.300.012">Дебетная карта</option>
+                <option value="0.300.113">Пенсионная карта</option>
               </TextField>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
