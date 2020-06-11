@@ -204,7 +204,7 @@ const Step6 = () => {
               );
             } else if (model.checkResult?.product?.state == 1) {
               setShowErrorMsg(
-                "Уважаемый клиент! У вас уже имеется действующая Социальная карта."
+                "Уважаемый клиент! У вас уже имеется действующая карта."
               );
             } else if (model.checkResult2?.product?.state == 1) {
               setShowErrorMsg(
