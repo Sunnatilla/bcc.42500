@@ -188,6 +188,12 @@ const Step6 = () => {
                   (s) => s++
                 );
               }
+            } else if (model.checkArest.data[0].result == 1) {
+              setShowErrorMsg("По вам есть арест.");
+            } else if (model.bnpResult.data[0].inactive == 1) {
+              setShowErrorMsg(
+                "Вы числитесь в базе бездействующих налогоплательщиков."
+              );
             } else {
               setStep(6);
             }
@@ -209,6 +215,12 @@ const Step6 = () => {
             } else if (model.checkResult2?.product?.state == 1) {
               setShowErrorMsg(
                 "Уважаемый клиент! У вас уже имеется действующая Социальная виртуальная карта."
+              );
+            } else if (model.checkArest.data[0].result == 1) {
+              setShowErrorMsg("По вам есть арест.");
+            } else if (model.bnpResult.data[0].inactive == 1) {
+              setShowErrorMsg(
+                "Вы числитесь в базе бездействующих налогоплательщиков."
               );
             } else {
               setStep(6);
