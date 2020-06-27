@@ -208,6 +208,10 @@ const Step6 = () => {
               setShowErrorMsg(
                 "Введеный номер телефона принадлежит другому клиенту. Просим обратиться в отделение банка."
               );
+            } else if (model.checkRequestDel?.data?.pret > 0) {
+              setShowErrorMsg(
+                "Уважаемый клиент! У вас уже имеется действующая заявка на эту карту."
+              );
             } else if (model.checkResult?.product?.state == 1) {
               setShowErrorMsg(
                 "Уважаемый клиент! У вас уже имеется действующая карта."
