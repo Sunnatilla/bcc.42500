@@ -75,12 +75,12 @@ const Step7 = () => {
               Спасибо, заявка принята.
             </Typography>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Typography className={classes.txtFollowInstruct}>
               Смс-соощение с номером счета или дальнейшими инструкциями будет
               направлено не позднее следующего дня с момента подачи заявки.
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
