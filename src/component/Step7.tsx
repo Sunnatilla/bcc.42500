@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { AppContext } from "../App";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -58,96 +59,106 @@ const Step7 = () => {
   const classes = useStyles();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-        <Grid
-          container
-          className={classes.tickBlock}
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
-          <Grid item>
-            <img src="tick.svg" alt="tick" />
-          </Grid>
-          <Grid item>
-            <Typography className={classes.txtSend}>
-              Спасибо, заявка принята.
-            </Typography>
-          </Grid>
-          {/* <Grid item>
-            <Typography className={classes.txtFollowInstruct}>
-              Смс-соощение с номером счета или дальнейшими инструкциями будет
-              направлено не позднее следующего дня с момента подачи заявки.
-            </Typography>
-          </Grid> */}
-        </Grid>
-      </Grid>
-      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-        <Typography className={classes.txtOtherCard}>
-          Посмотрите на наши другие карты
-        </Typography>
-      </Grid>
-      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-        <Grid container spacing={8}>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Grid container>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <img
-                  src="ironcard.svg"
-                  alt="ironcard"
-                  className={classes.imgOtherCard}
-                />
+    <AppContext.Consumer>
+      {({ model }) => (
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Grid
+              container
+              className={classes.tickBlock}
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <img src="tick.svg" alt="tick" />
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              {model.cardType == "0.300.114" ? (
+                <Grid item>
+                  <Typography className={classes.txtFollowInstruct}>
+                    Спасибо, заявка принята. Смс-соощение с номером счета будет
+                    направлено на Ваш номер телефона. Ожидайте звонка от курьера
+                    о доставке карты.
+                  </Typography>
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Typography className={classes.txtSend}>
+                    Спасибо, заявка принята.
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Typography className={classes.txtOtherCard}>
+              Посмотрите на наши другие карты
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Grid container spacing={8}>
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                 <Grid container>
-                  <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-                    <Typography className={classes.txtOtherCardHashTagTitle}>
-                      #IRonCard
-                    </Typography>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <img
+                      src="ironcard.svg"
+                      alt="ironcard"
+                      className={classes.imgOtherCard}
+                    />
                   </Grid>
-                  <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-                    <Grid container justify="flex-end">
-                      <span className={classes.premium}>Премиум</span>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Grid container>
+                      <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                        <Typography
+                          className={classes.txtOtherCardHashTagTitle}
+                        >
+                          #IRonCard
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+                        <Grid container justify="flex-end">
+                          <span className={classes.premium}>Премиум</span>
+                        </Grid>
+                      </Grid>
                     </Grid>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Typography className={classes.txtOtherCardDesc}>
+                      Первая бесконтактная металлическая карта
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Typography className={classes.txtOtherCardDesc}>
-                  Первая бесконтактная металлическая карта
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-            <Grid container>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <img
-                  src="kartakarta.svg"
-                  alt="kartakarta"
-                  className={classes.imgOtherCard}
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Typography className={classes.txtOtherCardHashTagTitle}>
-                  #картакарта
-                </Typography>
-                <Typography className={classes.txtOtherCardDesc}>
-                  Кэшбэк до 30%{" "}
-                </Typography>
-                <Typography className={classes.txtOtherCardDesc}>
-                  Кредитный лимит до 3 млн. ₸.
-                </Typography>
-                <Typography className={classes.txtOtherCardDesc}>
-                  Рассрочка до 12 мес.
-                </Typography>
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                <Grid container>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <img
+                      src="kartakarta.svg"
+                      alt="kartakarta"
+                      className={classes.imgOtherCard}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Typography className={classes.txtOtherCardHashTagTitle}>
+                      #картакарта
+                    </Typography>
+                    <Typography className={classes.txtOtherCardDesc}>
+                      Кэшбэк до 30%{" "}
+                    </Typography>
+                    <Typography className={classes.txtOtherCardDesc}>
+                      Кредитный лимит до 3 млн. ₸.
+                    </Typography>
+                    <Typography className={classes.txtOtherCardDesc}>
+                      Рассрочка до 12 мес.
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Grid>
+      )}
+    </AppContext.Consumer>
   );
 };
 
