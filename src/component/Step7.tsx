@@ -71,7 +71,7 @@ const Step7 = () => {
               alignItems="center"
             >
               <Grid item>
-                <img src="tick.svg" alt="tick" />
+                <img src={process.env.PUBLIC_URL + "/tick.svg"} alt="tick" />
               </Grid>
               {model.cardType == "0.300.114" ? (
                 <Grid item>
@@ -101,7 +101,7 @@ const Step7 = () => {
                 <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <img
-                      src="ironcard.svg"
+                      src={process.env.PUBLIC_URL + "/ironcard.svg"}
                       alt="ironcard"
                       className={classes.imgOtherCard}
                     />
@@ -133,7 +133,7 @@ const Step7 = () => {
                 <Grid container>
                   <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                     <img
-                      src="kartakarta.svg"
+                      src={process.env.PUBLIC_URL + "/kartakarta.svg"}
                       alt="kartakarta"
                       className={classes.imgOtherCard}
                     />

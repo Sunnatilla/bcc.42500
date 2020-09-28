@@ -50,10 +50,6 @@ const Step5 = () => {
             .filter(Boolean)
             .join(", "),
         };
-        p[0] = {
-          ...p[0],
-          deliveryAddress: p[0]?.fullAddress,
-        };
         p[1] = { ...p[0], type: { code: "006" } };
         return p;
       }

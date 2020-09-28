@@ -36,7 +36,7 @@ const Header = (props: { showCard: boolean }) => {
     <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <a href="https://www.bcc.kz">
-          <img src="logo-bcc.svg" alt="logo" />
+          <img src={process.env.PUBLIC_URL + "/logo-bcc.svg"} alt="logo" />
         </a>
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -47,7 +47,7 @@ const Header = (props: { showCard: boolean }) => {
           <Grid container spacing={4} className={classes.cardBlock}>
             <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
               <img
-                src="socialCard.svg"
+                src={process.env.PUBLIC_URL + "/socialCard.svg"}
                 alt="socialCard"
                 className={classes.card}
               />

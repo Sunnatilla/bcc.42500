@@ -200,7 +200,10 @@ export const Step1 = () => {
                       lg={false}
                       xl={false}
                     >
-                      <img src="protection.svg" alt="protection" />
+                      <img
+                        src={process.env.PUBLIC_URL + "/protection.svg"}
+                        alt="protection"
+                      />
                     </Grid>
                     <Grid
                       item

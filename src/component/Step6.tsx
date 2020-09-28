@@ -6,7 +6,7 @@ import { TextField, Button } from ".";
 import { api } from "../api/ApiRest";
 import { Coordinate, Marker } from "../api/ReferenceController";
 import { AppContext } from "../App";
-import { BaseModel } from "../api/model/BaseModel";
+import { BaseModel, Address } from "../api/model/BaseModel";
 import ReactGA from "react-ga";
 import BccCheckbox from "./BccCheckbox/BccCheckbox";
 
@@ -47,12 +47,14 @@ enum MapList {
 
 const Step6 = () => {
   const classes = useStyles();
-
   const [coordinates, setCoordinates] = useState([] as Coordinate[]);
   const [mapCenter, setMapCenter] = useState({} as MapState);
   const [coordinate, setCoordinate] = useState({} as Coordinate);
   const [tab, setTab] = useState(MapList.LIST);
-
+  const [cityZone, setCityZone] = useState("");
+  const [street, setStreet] = useState("");
+  const [houseNumber, setHouseNumber] = useState("");
+  const [flat, setFlat] = useState("");
   var context = useContext(AppContext);
 
   useEffect(() => {
@@ -129,6 +131,17 @@ const Step6 = () => {
         action: "continue_5",
       });
       setLoading(true);
+      let newModel: Address =
+        model.addresses !== undefined ? model.addresses[0] : {};
+      newModel = {
+        ...newModel,
+        deliveryAddress: `${cityZone} ${street} ${houseNumber} ${flat}`,
+      };
+      model = {
+        ...model,
+        addresses: [newModel],
+      };
+
       api.camunda
         .start({ client: model })
         .then((response) => {
@@ -367,26 +380,57 @@ const Step6 = () => {
               className={classes.checbox}
             />
             {!!model.isDelivery && (
-              <TextField
-                label="Адрес доставки"
-                variant="filled"
-                fullWidth={true}
-                value={model.addresses?.[0].deliveryAddress}
-                onChange={(e: any) =>
-                  changeModel(
-                    (g) => g.addresses?.[0].deliveryAddress,
-                    (s) => e.target.value
-                  )
-                }
-                style={{ marginTop: 0 }}
-              />
+              <>
+                <Grid container>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <TextField
+                      label="Микрорайон"
+                      variant="filled"
+                      fullWidth={true}
+                      value={cityZone}
+                      onChange={(e: any) => setCityZone(e.target.value)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <TextField
+                          label="Улица"
+                          variant="filled"
+                          fullWidth={true}
+                          value={street}
+                          onChange={(e: any) => setStreet(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+                        <TextField
+                          label="Дом"
+                          variant="filled"
+                          fullWidth={true}
+                          value={houseNumber}
+                          onChange={(e: any) => setHouseNumber(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={6} sm={6} md={3} lg={3} xl={3}>
+                        <TextField
+                          label="Квартира"
+                          variant="filled"
+                          fullWidth={true}
+                          value={flat}
+                          onChange={(e: any) => setFlat(e.target.value)}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </>
             )}
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
               style={{ marginBottom: 24 }}
               fullWidth={true}
-              onClick={() =>
+              onClick={() => {
                 onSubmit(
                   model,
                   setStep,
@@ -394,8 +438,8 @@ const Step6 = () => {
                   setShowErrorMsg,
                   setLoading,
                   changeModel
-                )
-              }
+                );
+              }}
             >
               Подтвердить
             </Button>
