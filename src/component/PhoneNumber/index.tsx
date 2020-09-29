@@ -3,7 +3,7 @@ import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
 import { OutlinedInputProps } from "@material-ui/core/OutlinedInput";
 import { InputLabelProps } from "@material-ui/core/InputLabel";
-import MaskedInput from "react-maskedinput";
+import InputMask from "react-input-mask";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,13 +53,14 @@ const TextMaskCustom = (props: TextMaskCustomProps) => {
   const { inputRef, ...other } = props;
 
   return (
-    <MaskedInput
+    <InputMask
       {...other}
       ref={(ref: any) => {
         inputRef(ref ? ref.inputElement : null);
       }}
-      mask="+7 (111) 111 11 11"
-      placeholder={"+7 (707) 707 77 77"}
+      mask="+7 (999) 999 99 99"
+      placeholder={"+7 (707) 777 77 77"}
+      maskChar=" "
     />
   );
 };
@@ -83,12 +84,7 @@ const BccPhoneInputText = (
 
   const onChangeCorrected = (value: string) => {
     if (!!onChangeValue) {
-      value = value.replace(/ /g, "").replace("(", "").replace(")", "");
-      if (value.length >= 5) {
-        onChangeValue(value, value.substr(2, 3));
-      } else {
-        onChangeValue(value, "");
-      }
+      onChangeValue(value, "");
     }
   };
 
