@@ -1,5 +1,5 @@
 #root {
-  max-width: 576px;
+  max-width: auto;
   margin: 30px auto 30px;
   padding: 0 25px;
   box-sizing: border-box;

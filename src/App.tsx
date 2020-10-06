@@ -13,7 +13,7 @@ import {
 } from "./component";
 import "./App.css";
 import { BaseModel } from "./api/model/BaseModel";
-import { Snackbar } from "@material-ui/core";
+import { Snackbar, Grid } from "@material-ui/core";
 import { Alert as MuiAlert } from "@material-ui/lab";
 import BlockUi from "react-block-ui";
 import "react-block-ui/style.css";
@@ -129,114 +129,137 @@ function App() {
 
   return (
     <div>
-      <YMInitializer
-        accounts={[61898595]}
-        options={{
-          clickmap: true,
-          trackLinks: true,
-          accurateTrackBounce: true,
-          webvisor: true,
-          trackHash: true,
-        }}
-      />
-      <Snackbar
-        style={{ zIndex: 3000 }}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={openError}
-        autoHideDuration={6000}
-        onClose={() => setOpenError(false)}
-      >
-        <Alert onClose={() => setOpenError(false)} severity="error">
-          Возникла непредвиденная ошибка. Попробуйте через 15 мин.
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        style={{ zIndex: 3000 }}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        open={openErrorMsg}
-        autoHideDuration={6000}
-        onClose={() => setOpenErrorMsg(false)}
-      >
-        <Alert onClose={() => setOpenErrorMsg(false)} severity="error">
-          {errorMsg}
-        </Alert>
-      </Snackbar>
-      <BlockUi tag="div" blocking={isLoading}>
-        <AppContext.Provider
-          value={{
-            model,
-            setStep,
-            changeModel,
-            setOpenError,
-            setShowErrorMsg,
-            setLoading,
-            sended,
-            setSended,
-          }}
+      {true ? (
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          style={{ height: "90vh", width: "100%", boxSizing: "border-box" }}
         >
-          <div>
-            <Header showCard={step !== 6} />
-            {step > 0 && step !== 6 && (
-              <div onClick={() => setStep(step - 1)} className="back">
-                <KeyboardBackspace /> Назад
+          <Grid item style={{ marginBottom: 24 }}>
+            <img src={process.env.PUBLIC_URL + "/warning.svg"} />
+          </Grid>
+          <Grid item>
+            <h3>По техническим причинам сервис временно недоступен</h3>
+          </Grid>
+        </Grid>
+      ) : (
+        <>
+          <YMInitializer
+            accounts={[61898595]}
+            options={{
+              clickmap: true,
+              trackLinks: true,
+              accurateTrackBounce: true,
+              webvisor: true,
+              trackHash: true,
+            }}
+          />
+          <Snackbar
+            style={{ zIndex: 3000 }}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={openError}
+            autoHideDuration={6000}
+            onClose={() => setOpenError(false)}
+          >
+            <Alert onClose={() => setOpenError(false)} severity="error">
+              Возникла непредвиденная ошибка. Попробуйте через 15 мин.
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            style={{ zIndex: 3000 }}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={openErrorMsg}
+            autoHideDuration={6000}
+            onClose={() => setOpenErrorMsg(false)}
+          >
+            <Alert onClose={() => setOpenErrorMsg(false)} severity="error">
+              {errorMsg}
+            </Alert>
+          </Snackbar>
+          <BlockUi tag="div" blocking={isLoading}>
+            <AppContext.Provider
+              value={{
+                model,
+                setStep,
+                changeModel,
+                setOpenError,
+                setShowErrorMsg,
+                setLoading,
+                sended,
+                setSended,
+              }}
+            >
+              <div>
+                <Header showCard={step !== 6} />
+                {step > 0 && step !== 6 && (
+                  <div onClick={() => setStep(step - 1)} className="back">
+                    <KeyboardBackspace /> Назад
+                  </div>
+                )}
+                {step === 0 && (
+                  <Stepper
+                    title="Шаг 1: Заполнение данных"
+                    percent={0}
+                    step={1}
+                  >
+                    <Step1 />
+                  </Stepper>
+                )}
+                {step === 1 && (
+                  <Stepper
+                    title="Шаг 2: Подтверждение номера"
+                    percent={17}
+                    step={2}
+                  >
+                    <Step2 />
+                  </Stepper>
+                )}
+                {step === 2 && (
+                  <Stepper
+                    title="Шаг 3: Заполнение личных данных"
+                    percent={33}
+                    step={3}
+                  >
+                    <Step3 />
+                  </Stepper>
+                )}
+                {step === 3 && (
+                  <Stepper
+                    title="Шаг 4: Документ, удостверяющий личность"
+                    percent={50}
+                    step={4}
+                  >
+                    <Step4 />
+                  </Stepper>
+                )}
+                {step === 4 && (
+                  <Stepper title="Шаг 5: Адрес" percent={67} step={5}>
+                    <Step5 />
+                  </Stepper>
+                )}
+                {step === 5 && (
+                  <Stepper
+                    title="Шаг 6: Выберите отделение банка"
+                    percent={84}
+                    step={5}
+                  >
+                    <Step6 />
+                  </Stepper>
+                )}
+                {step === 6 && <Step7 />}
               </div>
-            )}
-            {step === 0 && (
-              <Stepper title="Шаг 1: Заполнение данных" percent={0} step={1}>
-                <Step1 />
-              </Stepper>
-            )}
-            {step === 1 && (
-              <Stepper
-                title="Шаг 2: Подтверждение номера"
-                percent={17}
-                step={2}
-              >
-                <Step2 />
-              </Stepper>
-            )}
-            {step === 2 && (
-              <Stepper
-                title="Шаг 3: Заполнение личных данных"
-                percent={33}
-                step={3}
-              >
-                <Step3 />
-              </Stepper>
-            )}
-            {step === 3 && (
-              <Stepper
-                title="Шаг 4: Документ, удостверяющий личность"
-                percent={50}
-                step={4}
-              >
-                <Step4 />
-              </Stepper>
-            )}
-            {step === 4 && (
-              <Stepper title="Шаг 5: Адрес" percent={67} step={5}>
-                <Step5 />
-              </Stepper>
-            )}
-            {step === 5 && (
-              <Stepper
-                title="Шаг 6: Выберите отделение банка"
-                percent={84}
-                step={5}
-              >
-                <Step6 />
-              </Stepper>
-            )}
-            {step === 6 && <Step7 />}
-          </div>
-        </AppContext.Provider>
-      </BlockUi>
+            </AppContext.Provider>
+          </BlockUi>
+        </>
+      )}
     </div>
   );
 }
